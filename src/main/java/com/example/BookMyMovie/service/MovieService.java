@@ -1,0 +1,65 @@
+package com.example.BookMyMovie.service;
+
+import com.example.BookMyMovie.exception.DuplicateIdFoundException;
+import com.example.BookMyMovie.exception.IdDoesNotExistException;
+import com.example.BookMyMovie.model.Movie;
+import com.example.BookMyMovie.repository.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class MovieService implements IMovieService{
+
+    @Autowired
+    MovieRepository movieRepository;
+
+    @Override
+    public Movie add(Movie movie) {
+        boolean isPresent = movieRepository.existsById(movie.getId());
+        if (isPresent){
+            throw new DuplicateIdFoundException("Duplicate Movie Id Found");
+        } else {
+            return movieRepository.save(movie);
+        }
+    }
+
+
+    @Override
+    public Movie update(Movie movie) {
+        boolean isPresent = movieRepository.existsById(movie.getId());
+        if (isPresent){
+            return movieRepository.save(movie);
+        } else {
+            throw new IdDoesNotExistException("Movie Id Not Found");
+        }
+
+    }
+
+    @Override
+    public Movie getById(int id) {
+        Optional<Movie> movie = movieRepository.findById(id);
+        if(movie.isPresent()){
+            return movie.get();
+        } else {
+            throw new IdDoesNotExistException("Id Not Found");
+        }
+    }
+
+    @Override
+    public List<Movie> getAll() {
+        return movieRepository.findAll();
+    }
+
+    @Override
+    public Movie getByTitle(String title) {
+        return movieRepository.getByTitle(title);
+    }
+
+    @Override
+    public List<Movie> getByTitleLike(String title) {
+        return movieRepository.getMoviesByTitle(title);
+    }
+}
