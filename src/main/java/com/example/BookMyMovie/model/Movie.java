@@ -1,10 +1,15 @@
 package com.example.BookMyMovie.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -13,7 +18,16 @@ import java.util.List;
 
 @Entity
 @Table(name="movies")
+@EntityListeners(AuditingEntityListener.class)
 public class Movie {
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
 
     public enum Language {
         HINDI,
@@ -30,13 +44,17 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Size(min=1, message = "Min size is 1")
+    @NotBlank(message = "Movie title is required")
     private String title;
     private String genre;
     private Language language;
     private LocalDate releaseDate;
     private LocalTime duration;
     private List<String> cast;
+
+    @Min(value = 1, message = "Rating must be at least 1")
+    @Max(value = 10, message = "Rating cannot be more than 10")
+    private Integer rating;
 
     @CreatedDate
     private Instant createdAt;
@@ -46,7 +64,10 @@ public class Movie {
 //    @CreatedBy
 //    private
 
-    public Movie(int id, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, List<String> cast) {
+    public Movie(){
+    }
+
+    public Movie(int id, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, List<String> cast, Integer rating) {
         this.id = id;
         this.title = title;
         this.genre = genre;
@@ -54,6 +75,7 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.duration = duration;
         this.cast = cast;
+        this.rating = rating;
     }
 
     public int getId() {
@@ -106,5 +128,21 @@ public class Movie {
 
     public void setCast(List<String> cast) {
         this.cast = cast;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", genre='" + genre + '\'' +
+                ", language=" + language +
+                ", releaseDate=" + releaseDate +
+                ", duration=" + duration +
+                ", cast=" + cast +
+                ", rating=" + rating +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }
