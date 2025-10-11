@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -27,14 +24,14 @@ public class UserController {
        return new ResponseEntity<>(addedUser, HttpStatus.CREATED);
     }
 
-    @PostMapping
+    @DeleteMapping
     public ResponseEntity<?> delete(@Valid @RequestBody User user)
     {
         userService.delete(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping
+    @PutMapping
     public ResponseEntity<?> update(@Valid @RequestBody User user)
     {
         User updatedUser=userService.update(user);
