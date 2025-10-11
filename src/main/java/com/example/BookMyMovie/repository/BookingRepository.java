@@ -1,0 +1,10 @@
+package com.example.BookMyMovie.repository;
+
+import com.example.BookMyMovie.model.Booking;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface BookingRepository extends JpaRepository<Booking,Integer> {
+    List<Booking> findByUserId(int userId);
+}
