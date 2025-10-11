@@ -1,20 +1,41 @@
 package com.example.BookMyMovie.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "User")
+@Table(name = "users")
 public class User {
+
+    public enum Role { ADMIN, CUSTOMER}
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer userId;
     public String firstName;
     public String lastName;
     public Long mobileNo;
+
+    @Column(unique = true, nullable = false)
     public String email;
-    public String userType;
+    public Role role;
     public String password;
+
+    public User() {}
+
+    public User(String email, String password, Role role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User(Integer userId, String firstName, String lastName, Long mobileNo, String email, Role role, String password) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mobileNo = mobileNo;
+        this.email = email;
+        this.role = role;
+        this.password = password;
+    }
 
     public Integer getUserId() {
         return userId;
@@ -56,12 +77,12 @@ public class User {
         this.email = email;
     }
 
-    public String getUserType() {
-        return userType;
+    public Role getRole() {
+        return role;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setRole(Role userType) {
+        this.role = userType;
     }
 
     public String getPassword() {
@@ -69,16 +90,6 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public User(Integer userId, String firstName, String lastName, Long mobileNo, String email, String userType, String password) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.mobileNo = mobileNo;
-        this.email = email;
-        this.userType = userType;
         this.password = password;
     }
 

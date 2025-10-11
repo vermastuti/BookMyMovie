@@ -18,7 +18,7 @@ public class MovieService implements IMovieService{
 
     @Override
     public Movie add(Movie movie) {
-        boolean isPresent = movieRepository.existsById(movie.getId());
+        boolean isPresent = movieRepository.existsById(movie.getMovieId());
         if (isPresent){
             throw new DuplicateIdFoundException("Duplicate Movie Id Found");
         } else {
@@ -29,7 +29,7 @@ public class MovieService implements IMovieService{
 
     @Override
     public Movie update(Movie movie) {
-        boolean isPresent = movieRepository.existsById(movie.getId());
+        boolean isPresent = movieRepository.existsById(movie.getMovieId());
         if (isPresent){
             return movieRepository.save(movie);
         } else {
@@ -54,12 +54,17 @@ public class MovieService implements IMovieService{
     }
 
     @Override
-    public Movie getByTitle(String title) {
-        return movieRepository.getByTitle(title);
+    public List<Movie> getByTitle(String title) {
+        return movieRepository.findByTitle(title);
     }
 
     @Override
-    public List<Movie> getByTitleLike(String title) {
-        return movieRepository.getMoviesByTitle(title);
+    public List<Movie> getByGenre(String genre) {
+        return movieRepository.findByGenre(genre);
+    }
+
+    @Override
+    public Object getShowsByMovie() {
+        return null;
     }
 }

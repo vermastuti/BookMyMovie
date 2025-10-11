@@ -1,5 +1,8 @@
 package com.example.BookMyMovie.controller;
 
+import com.example.BookMyMovie.dto.AuthResponse;
+import com.example.BookMyMovie.dto.LoginRequest;
+import com.example.BookMyMovie.dto.RegisterRequest;
 import com.example.BookMyMovie.model.User;
 import com.example.BookMyMovie.service.UserService;
 import jakarta.validation.Valid;
@@ -10,31 +13,33 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/auth")
 @Validated
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @PostMapping
-    public ResponseEntity<?> add(@Valid @RequestBody User user)
-    {
-       User addedUser= userService.add(user);
-       return new ResponseEntity<>(addedUser, HttpStatus.CREATED);
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+        return new ResponseEntity<>(userService.register(request), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+        return new ResponseEntity<>(userService.login(request), HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> delete(@Valid @RequestBody User user)
-    {
+    public ResponseEntity<?> delete(@Valid @RequestBody User user) {
         userService.delete(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@Valid @RequestBody User user)
-    {
-        User updatedUser=userService.update(user);
-        return new ResponseEntity<>(updatedUser,HttpStatus.OK);
+    public ResponseEntity<?> update(@Valid @RequestBody User user) {
+        User updatedUser = userService.update(user);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
+
 }
