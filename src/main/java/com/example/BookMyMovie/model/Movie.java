@@ -14,17 +14,10 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Entity
-@Table(name="movies")
+@Table(name = "movies")
 @EntityListeners(AuditingEntityListener.class)
 public class Movie {
 
-    public Integer getRating() {
-        return rating;
-    }
-
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
 
     public enum Language {
         HINDI,
@@ -39,7 +32,7 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int movieId;
 
     @NotBlank(message = "Movie title is required")
     private String title;
@@ -61,11 +54,11 @@ public class Movie {
 //    @CreatedBy
 //    private
 
-    public Movie(){
+    public Movie() {
     }
 
-    public Movie(int id, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, List<String> movieCast, Integer rating) {
-        this.id = id;
+    public Movie(int movieId, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, List<String> movieCast, Integer rating) {
+        this.movieId = movieId;
         this.title = title;
         this.genre = genre;
         this.language = language;
@@ -75,8 +68,8 @@ public class Movie {
         this.rating = rating;
     }
 
-    public int getId() {
-        return id;
+    public int getMovieId() {
+        return movieId;
     }
 
     public String getTitle() {
@@ -127,10 +120,18 @@ public class Movie {
         this.movieCast = cast;
     }
 
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
-                "id=" + id +
+                "id=" + movieId +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
                 ", language=" + language +
