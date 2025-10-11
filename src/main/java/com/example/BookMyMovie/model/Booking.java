@@ -2,6 +2,7 @@ package com.example.BookMyMovie.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -22,8 +23,10 @@ public class Booking {
     private int bookingId;
     private User user;
     private Show show;
-    private List<Seat> seats;
+    private List<Integer> seats;
+    private double amount;
     private Status status;
+    private boolean isPaid;
 
 
 }
