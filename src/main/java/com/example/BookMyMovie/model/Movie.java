@@ -4,12 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -50,7 +47,7 @@ public class Movie {
     private Language language;
     private LocalDate releaseDate;
     private LocalTime duration;
-    private List<String> cast;
+    private List<String> movieCast;
 
     @Min(value = 1, message = "Rating must be at least 1")
     @Max(value = 10, message = "Rating cannot be more than 10")
@@ -67,14 +64,14 @@ public class Movie {
     public Movie(){
     }
 
-    public Movie(int id, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, List<String> cast, Integer rating) {
+    public Movie(int id, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, List<String> movieCast, Integer rating) {
         this.id = id;
         this.title = title;
         this.genre = genre;
         this.language = language;
         this.releaseDate = releaseDate;
         this.duration = duration;
-        this.cast = cast;
+        this.movieCast = movieCast;
         this.rating = rating;
     }
 
@@ -122,12 +119,12 @@ public class Movie {
         this.duration = duration;
     }
 
-    public List<String> getCast() {
-        return cast;
+    public List<String> getMovieCast() {
+        return movieCast;
     }
 
-    public void setCast(List<String> cast) {
-        this.cast = cast;
+    public void setMovieCast(List<String> cast) {
+        this.movieCast = cast;
     }
 
     @Override
@@ -139,7 +136,7 @@ public class Movie {
                 ", language=" + language +
                 ", releaseDate=" + releaseDate +
                 ", duration=" + duration +
-                ", cast=" + cast +
+                ", movieCast=" + movieCast +
                 ", rating=" + rating +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
