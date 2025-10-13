@@ -11,10 +11,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
-@Table(name = "movies")
 @EntityListeners(AuditingEntityListener.class)
 public class Movie {
 
@@ -32,15 +31,17 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int movieId;
+    private Integer movieId;
 
     @NotBlank(message = "Movie title is required")
     private String title;
     private String genre;
+
+    @Enumerated(EnumType.STRING)
     private Language language;
     private LocalDate releaseDate;
     private LocalTime duration;
-    private List<String> movieCast;
+    private Collection<String> movieCast;
 
     @Min(value = 1, message = "Rating must be at least 1")
     @Max(value = 10, message = "Rating cannot be more than 10")
@@ -51,13 +52,14 @@ public class Movie {
 
     @LastModifiedDate
     private Instant updatedAt;
-//    @CreatedBy
-//    private
+
+    @OneToMany(mappedBy = "movie")
+    private Collection<Show> shows;
 
     public Movie() {
     }
 
-    public Movie(int movieId, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, List<String> movieCast, Integer rating) {
+    public Movie(int movieId, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, Collection<String> movieCast, Integer rating) {
         this.movieId = movieId;
         this.title = title;
         this.genre = genre;
@@ -66,6 +68,14 @@ public class Movie {
         this.duration = duration;
         this.movieCast = movieCast;
         this.rating = rating;
+    }
+
+    public Collection<Show> getShows() {
+        return shows;
+    }
+
+    public void setShows(Collection<Show> show) {
+        this.shows = show;
     }
 
     public int getMovieId() {
@@ -112,11 +122,11 @@ public class Movie {
         this.duration = duration;
     }
 
-    public List<String> getMovieCast() {
+    public Collection<String> getMovieCast() {
         return movieCast;
     }
 
-    public void setMovieCast(List<String> cast) {
+    public void setMovieCast(Collection<String> cast) {
         this.movieCast = cast;
     }
 
@@ -137,10 +147,11 @@ public class Movie {
                 ", language=" + language +
                 ", releaseDate=" + releaseDate +
                 ", duration=" + duration +
-                ", movieCast=" + movieCast +
+//                ", movieCast=" + movieCast +
                 ", rating=" + rating +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
     }
+
 }

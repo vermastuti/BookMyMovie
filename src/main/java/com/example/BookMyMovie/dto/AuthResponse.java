@@ -1,13 +1,13 @@
 package com.example.BookMyMovie.dto;
 
-import com.example.BookMyMovie.model.User;
+import com.example.BookMyMovie.model.UserProfile;
 
 public class AuthResponse {
     private String token;
     private String email;
-    private User.Role role;
+    private UserProfile.Role role;
 
-    public AuthResponse(String token, String email, User.Role role) {
+    public AuthResponse(String token, String email, UserProfile.Role role) {
         this.token = token;
         this.email = email;
         this.role = role;
@@ -29,11 +29,11 @@ public class AuthResponse {
         this.email = email;
     }
 
-    public User.Role getRole() {
+    public UserProfile.Role getRole() {
         return role;
     }
 
-    public void setRole(User.Role role) {
+    public void setRole(UserProfile.Role role) {
         this.role = role;
     }
 }

@@ -6,7 +6,7 @@ import com.example.BookMyMovie.dto.RegisterRequest;
 import com.example.BookMyMovie.exception.DuplicateIdFoundException;
 import com.example.BookMyMovie.exception.IdDoesNotExistException;
 import com.example.BookMyMovie.exception.InvalidCredentialsException;
-import com.example.BookMyMovie.model.User;
+import com.example.BookMyMovie.model.UserProfile;
 import com.example.BookMyMovie.repository.UserRepository;
 import com.example.BookMyMovie.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,30 +28,30 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User add(User user) {
-        boolean isPresent = userRepository.existsById(user.getUserId());
+    public UserProfile add(UserProfile userProfile) {
+        boolean isPresent = userRepository.existsById(userProfile.getUserId());
         if (isPresent) {
             throw new DuplicateIdFoundException("Duplicate User found");
         } else {
-            return userRepository.save(user);
+            return userRepository.save(userProfile);
         }
     }
 
     @Override
-    public void delete(User user) {
-        boolean isPresent = userRepository.existsById(user.getUserId());
+    public void delete(UserProfile userProfile) {
+        boolean isPresent = userRepository.existsById(userProfile.getUserId());
         if (isPresent) {
-            userRepository.delete(user);
+            userRepository.delete(userProfile);
         } else {
             throw new IdDoesNotExistException("User Id not found");
         }
     }
 
     @Override
-    public User update(User user) {
-        boolean isPresent = userRepository.existsById(user.getUserId());
+    public UserProfile update(UserProfile userProfile) {
+        boolean isPresent = userRepository.existsById(userProfile.getUserId());
         if (isPresent) {
-            return userRepository.save(user);
+            return userRepository.save(userProfile);
         } else {
             throw new IdDoesNotExistException("User Id not found");
         }
@@ -62,28 +62,28 @@ public class UserService implements IUserService {
             throw new DuplicateIdFoundException("Email already exists");
         }
 
-        User user = new User(
+        UserProfile userProfile = new UserProfile(
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword()),
-                User.Role.CUSTOMER
+                UserProfile.Role.CUSTOMER
         );
 
-        userRepository.save(user);
+        userRepository.save(userProfile);
 
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
-        return new AuthResponse(token, user.getEmail(), user.getRole());
+        String token = jwtUtil.generateToken(userProfile.getEmail(), userProfile.getRole());
+        return new AuthResponse(token, userProfile.getEmail(), userProfile.getRole());
     }
 
     public AuthResponse login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
+        UserProfile userProfile = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), userProfile.getPassword())) {
             throw new InvalidCredentialsException("Invalid credentials");
         }
 
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
-        return new AuthResponse(token, user.getEmail(), user.getRole());
+        String token = jwtUtil.generateToken(userProfile.getEmail(), userProfile.getRole());
+        return new AuthResponse(token, userProfile.getEmail(), userProfile.getRole());
     }
 
 }

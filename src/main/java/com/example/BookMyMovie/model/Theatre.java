@@ -2,28 +2,34 @@ package com.example.BookMyMovie.model;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @Entity
-@Table
 public class Theatre {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    int theatreId;
-    int totalSeats;
-    @ManyToOne
-    Show show;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer theatreId;
+    Integer totalSeats;
     String address;
     String theatreName;
 
-    public Theatre(int theatreId, int totalSeats, Show show, String address, String theatreName) {
-        this.theatreId = theatreId;
-        this.totalSeats = totalSeats;
-        this.show = show;
-        this.address = address;
-        this.theatreName = theatreName;
-    }
+    @OneToMany(mappedBy = "theatre")
+    private Collection<Show> shows;
 
     public Theatre() {
+    }
 
+    public Theatre(Integer theatreId) {
+        this.theatreId = theatreId;
+    }
+
+    public Theatre(Integer theatreId, Integer totalSeats, String address, String theatreName, Collection<Show> shows) {
+        this.theatreId = theatreId;
+        this.totalSeats = totalSeats;
+        this.address = address;
+        this.theatreName = theatreName;
+        this.shows = shows;
     }
 
     public int getTheatreId() {
@@ -42,14 +48,6 @@ public class Theatre {
         this.totalSeats = totalSeats;
     }
 
-    public Show getShow() {
-        return show;
-    }
-
-    public void setShow(Show show) {
-        this.show = show;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -64,5 +62,13 @@ public class Theatre {
 
     public void setTheatreName(String theatreName) {
         this.theatreName = theatreName;
+    }
+
+    public Collection<Show> getShows() {
+        return shows;
+    }
+
+    public void setShows(Collection<Show> show) {
+        this.shows = show;
     }
 }

@@ -3,8 +3,7 @@ package com.example.BookMyMovie.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
-public class User {
+public class UserProfile {
 
     public enum Role { ADMIN, CUSTOMER}
     @Id
@@ -19,15 +18,15 @@ public class User {
     public Role role;
     public String password;
 
-    public User() {}
+    public UserProfile() {}
 
-    public User(String email, String password, Role role) {
+    public UserProfile(String email, String password, Role role) {
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public User(Integer userId, String firstName, String lastName, Long mobileNo, String email, Role role, String password) {
+    public UserProfile(Integer userId, String firstName, String lastName, Long mobileNo, String email, Role role, String password) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;

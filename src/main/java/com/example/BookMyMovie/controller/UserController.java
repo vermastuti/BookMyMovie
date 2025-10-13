@@ -3,7 +3,7 @@ package com.example.BookMyMovie.controller;
 import com.example.BookMyMovie.dto.AuthResponse;
 import com.example.BookMyMovie.dto.LoginRequest;
 import com.example.BookMyMovie.dto.RegisterRequest;
-import com.example.BookMyMovie.model.User;
+import com.example.BookMyMovie.model.UserProfile;
 import com.example.BookMyMovie.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +31,15 @@ public class UserController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> delete(@Valid @RequestBody User user) {
-        userService.delete(user);
+    public ResponseEntity<?> delete(@Valid @RequestBody UserProfile userProfile) {
+        userService.delete(userProfile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@Valid @RequestBody User user) {
-        User updatedUser = userService.update(user);
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    public ResponseEntity<?> update(@Valid @RequestBody UserProfile userProfile) {
+        UserProfile updatedUserProfile = userService.update(userProfile);
+        return new ResponseEntity<>(updatedUserProfile, HttpStatus.OK);
     }
 
 }

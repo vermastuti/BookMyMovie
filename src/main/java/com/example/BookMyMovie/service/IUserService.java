@@ -1,15 +1,12 @@
 package com.example.BookMyMovie.service;
 
-import com.example.BookMyMovie.model.User;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import java.util.Optional;
+import com.example.BookMyMovie.model.UserProfile;
 
 public interface IUserService {
-    User add(User user);
+    UserProfile add(UserProfile userProfile);
 
-    void delete(User user);
+    void delete(UserProfile userProfile);
 
-    User update(User user);
+    UserProfile update(UserProfile userProfile);
 
 }
