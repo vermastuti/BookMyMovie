@@ -1,6 +1,6 @@
 package com.example.BookMyMovie.security;
 
-import com.example.BookMyMovie.model.User;
+import com.example.BookMyMovie.model.UserProfile;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -25,7 +25,7 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(String username, User.Role role) {
+    public String generateToken(String username, UserProfile.Role role) {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)
