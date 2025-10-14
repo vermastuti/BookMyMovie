@@ -49,9 +49,9 @@ src/
 - DELETE `/api/admin/movies/{id}` - Delete a movie
 
 ### Show Management
-- POST `/api/shows` - Add a new show
-- GET `/api/shows` - Get all shows
-- GET `/api/shows/{id}` - Get show details
+- POST `/api/movieShows` - Add a new movieShow
+- GET `/api/movieShows` - Get all movieShows
+- GET `/api/movieShows/{id}` - Get movieShow details
 
 ### Booking Management
 - POST `/api/bookings` - Book tickets

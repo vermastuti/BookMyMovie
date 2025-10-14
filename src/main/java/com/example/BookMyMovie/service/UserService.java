@@ -65,7 +65,7 @@ public class UserService implements IUserService {
         UserProfile userProfile = new UserProfile(
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword()),
-                UserProfile.Role.CUSTOMER
+                request.getRole()
         );
 
         userRepository.save(userProfile);

@@ -14,8 +14,8 @@ public class Theatre {
     String address;
     String theatreName;
 
-    @OneToMany(mappedBy = "theatre")
-    private Collection<Show> shows;
+//    @OneToMany(mappedBy = "theatre")
+//    private Collection<Show> shows;
 
     public Theatre() {
     }
@@ -24,12 +24,12 @@ public class Theatre {
         this.theatreId = theatreId;
     }
 
-    public Theatre(Integer theatreId, Integer totalSeats, String address, String theatreName, Collection<Show> shows) {
+    public Theatre(Integer theatreId, Integer totalSeats, String address, String theatreName) {
         this.theatreId = theatreId;
         this.totalSeats = totalSeats;
         this.address = address;
         this.theatreName = theatreName;
-        this.shows = shows;
+//        this.shows = shows;
     }
 
     public int getTheatreId() {
@@ -64,11 +64,11 @@ public class Theatre {
         this.theatreName = theatreName;
     }
 
-    public Collection<Show> getShows() {
-        return shows;
-    }
-
-    public void setShows(Collection<Show> show) {
-        this.shows = show;
-    }
+//    public Collection<Show> getShows() {
+//        return shows;
+//    }
+//
+//    public void setShows(Collection<Show> show) {
+//        this.shows = show;
+//    }
 }

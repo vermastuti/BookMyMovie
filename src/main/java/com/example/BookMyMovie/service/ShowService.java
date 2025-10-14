@@ -1,8 +1,7 @@
 package com.example.BookMyMovie.service;
 
 import com.example.BookMyMovie.exception.ShowIdAlreadyExistException;
-import com.example.BookMyMovie.model.Movie;
-import com.example.BookMyMovie.model.Show;
+import com.example.BookMyMovie.model.MovieShow;
 import com.example.BookMyMovie.repository.ShowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,21 +13,21 @@ public class ShowService implements IShowService{
     ShowRepository showRepository;
 
     @Override
-    public Show add(Show show) throws ShowIdAlreadyExistException {
-        boolean isExist=  showRepository.existsById(show.getShowId());
+    public MovieShow add(MovieShow movieShow) throws ShowIdAlreadyExistException {
+        boolean isExist =  showRepository.existsById(movieShow.getShowId());
         if (isExist)
             throw new ShowIdAlreadyExistException("Duplicate Id");
         else {
-            Show newShow = showRepository.save(show);
-            return newShow;
+            MovieShow newMovieShow = showRepository.save(movieShow);
+            return newMovieShow;
         }
 
     }
 
     @Override
-    public List<Show> viewAllShow() {
-        List<Show> shows=   showRepository.findAll();
-        return shows;
+    public List<MovieShow> viewAllShow() {
+        List<MovieShow> movieShows =   showRepository.findAll();
+        return movieShows;
 
     }
 

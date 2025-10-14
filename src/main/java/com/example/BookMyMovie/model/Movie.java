@@ -53,8 +53,8 @@ public class Movie {
     @LastModifiedDate
     private Instant updatedAt;
 
-    @OneToMany(mappedBy = "movie")
-    private Collection<Show> shows;
+//    @OneToMany(mappedBy = "movie")
+//    private Collection<Show> shows;
 
     public Movie() {
     }
@@ -70,13 +70,13 @@ public class Movie {
         this.rating = rating;
     }
 
-    public Collection<Show> getShows() {
-        return shows;
-    }
-
-    public void setShows(Collection<Show> show) {
-        this.shows = show;
-    }
+//    public Collection<Show> getShows() {
+//        return shows;
+//    }
+//
+//    public void setShows(Collection<Show> show) {
+//        this.shows = show;
+//    }
 
     public int getMovieId() {
         return movieId;

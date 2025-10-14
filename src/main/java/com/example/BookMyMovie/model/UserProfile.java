@@ -8,15 +8,15 @@ public class UserProfile {
     public enum Role { ADMIN, CUSTOMER}
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Integer userId;
-    public String firstName;
-    public String lastName;
-    public Long mobileNo;
+    private Integer userId;
+    private String firstName;
+    private String lastName;
+    private Long mobileNo;
 
     @Column(unique = true, nullable = false)
-    public String email;
-    public Role role;
-    public String password;
+    private String email;
+    private Role role;
+    private String password;
 
     public UserProfile() {}
 

@@ -3,6 +3,7 @@ package com.example.BookMyMovie.controller;
 import com.example.BookMyMovie.exception.IdDoesNotExistException;
 import com.example.BookMyMovie.model.Movie;
 import com.example.BookMyMovie.service.MovieService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,11 +34,6 @@ public class CustomerMovieController {
         }
     }
 
-    @GetMapping("/{pid}/shows")
-    public ResponseEntity<?> getMovieShows(@PathVariable Integer pid) {
-        return new ResponseEntity<>(movieService.getShowsByMovie(), HttpStatus.OK);
-    }
-
     @GetMapping("/search?title={title}")
     public ResponseEntity<?> getMovieByTitle(@RequestParam("title") String title) {
         return new ResponseEntity<>(movieService.getByTitle(title), HttpStatus.OK);
@@ -46,6 +42,19 @@ public class CustomerMovieController {
     @GetMapping("/search?genre={genre}")
     public ResponseEntity<?> getMovieByGenre(@RequestParam("genre") String genre) {
         return new ResponseEntity<>(movieService.getByGenre(genre), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> add(@Valid @RequestBody Movie movie) {
+        System.out.println("----------------------------here-----   " + movie.toString());
+        Movie addedMovie = movieService.add(movie);
+        return new ResponseEntity<>(addedMovie, HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody Movie movie) {
+        Movie updatedMovie = movieService.update(movie);
+        return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }
 
 

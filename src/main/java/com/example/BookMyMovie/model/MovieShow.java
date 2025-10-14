@@ -5,16 +5,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collection;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Show {
+public class MovieShow {
 
     @Id
-    Integer showId;
-    LocalDate date;
-    LocalTime time;
+    int showId;
+    LocalDate showDate;
+    LocalTime showTime;
 
     @ManyToOne
     @JoinColumn(name = "movie_movie_id")
@@ -23,15 +22,15 @@ public class Show {
     @ManyToOne
     @JoinColumn(name = "theatre_theatre_id")
     Theatre theatre;
-    Integer totalPrice;
-    Integer availableSeats;
+    int totalPrice;
+    int availableSeats;
 
-    public Show() {}
+    public MovieShow() {}
 
-    public Show(int showId, LocalDate date, LocalTime time, Movie movie, Theatre theatre, int totalPrice, int availableSeats) {
+    public MovieShow(int showId, LocalDate showDate, LocalTime showTime, Movie movie, Theatre theatre, int totalPrice, int availableSeats) {
         this.showId = showId;
-        this.date = date;
-        this.time = time;
+        this.showDate = showDate;
+        this.showTime = showTime;
         this.movie = movie;
         this.theatre = theatre;
         this.totalPrice = totalPrice;
@@ -54,20 +53,20 @@ public class Show {
         this.showId = showId;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getShowDate() {
+        return showDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setShowDate(LocalDate showDate) {
+        this.showDate = showDate;
     }
 
-    public LocalTime getTime() {
-        return time;
+    public LocalTime getShowTime() {
+        return showTime;
     }
 
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void setShowTime(LocalTime showTime) {
+        this.showTime = showTime;
     }
 
     public Movie getMovie() {

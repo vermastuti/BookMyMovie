@@ -18,5 +18,4 @@ public interface IMovieService {
 
     List<Movie> getByGenre(String genre);
 
-    Object getShowsByMovie();
 }

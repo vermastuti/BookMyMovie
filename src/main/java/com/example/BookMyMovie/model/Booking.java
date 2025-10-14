@@ -28,7 +28,7 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "show_show_id")
-    private Show show;
+    private MovieShow movieShow;
 
     private List<Integer> seats;
 
@@ -58,12 +58,12 @@ public class Booking {
         this.userProfile = userProfile;
     }
 
-    public Show getShow() {
-        return show;
+    public MovieShow getShow() {
+        return movieShow;
     }
 
-    public void setShow(Show show) {
-        this.show = show;
+    public void setShow(MovieShow movieShow) {
+        this.movieShow = movieShow;
     }
 
     public Integer getBookingId() {

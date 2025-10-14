@@ -63,8 +63,4 @@ public class MovieService implements IMovieService{
         return movieRepository.findByGenre(genre);
     }
 
-    @Override
-    public Object getShowsByMovie() {
-        return null;
-    }
 }
