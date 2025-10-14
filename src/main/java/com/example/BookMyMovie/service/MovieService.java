@@ -39,6 +39,16 @@ public class MovieService implements IMovieService{
     }
 
     @Override
+    public boolean delete(int id){
+        if(movieRepository.existsById(id)){
+            movieRepository.deleteById(id);
+            return true;
+        } else {
+            throw new IdDoesNotExistException("Id Not Found");
+        }
+    }
+
+    @Override
     public Movie getById(int id) {
         Optional<Movie> movie = movieRepository.findById(id);
         if(movie.isPresent()){

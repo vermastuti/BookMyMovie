@@ -10,6 +10,8 @@ public interface IMovieService {
 
     Movie update(Movie movie);
 
+    boolean delete(int id);
+
     Movie getById(int id);
 
     List<Movie> getAll();

@@ -14,7 +14,7 @@ import java.time.LocalTime;
 import java.util.Collection;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 public class Movie {
 
 

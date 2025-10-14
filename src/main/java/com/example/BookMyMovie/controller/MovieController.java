@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/movies")
 @Validated
-public class CustomerMovieController {
+public class MovieController {
 
     @Autowired
     MovieService movieService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<?> getAllMovies() {
         return new ResponseEntity<>(movieService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("{pid}")
+    @GetMapping("/{pid}")
     public ResponseEntity<?> getMovieById(@PathVariable("pid") int pid) {
         try {
             Movie movieFound = movieService.getById(pid);
@@ -44,17 +44,27 @@ public class CustomerMovieController {
         return new ResponseEntity<>(movieService.getByGenre(genre), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/admin/add")
     public ResponseEntity<?> add(@Valid @RequestBody Movie movie) {
         System.out.println("----------------------------here-----   " + movie.toString());
         Movie addedMovie = movieService.add(movie);
         return new ResponseEntity<>(addedMovie, HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping("/admin/update")
     public ResponseEntity<?> update(@RequestBody Movie movie) {
         Movie updatedMovie = movieService.update(movie);
         return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/admin/cancel/{pid}")
+    public ResponseEntity<?> cancel(@RequestParam("pid") int pid){
+        try {
+            Movie movieFound = movieService.getById(pid);
+            return ResponseEntity.ok(movieService.delete(pid));
+        } catch (IdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
 
