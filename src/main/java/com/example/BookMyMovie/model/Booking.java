@@ -3,11 +3,10 @@ package com.example.BookMyMovie.model;
 import jakarta.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "booking", schema = "public")
+@Table(name = "booking")
 @EntityListeners(AuditingEntityListener.class)
 public class Booking {
 
@@ -31,7 +30,6 @@ public class Booking {
     @JoinColumn(name = "show_show_id")
     private Show show;
 
-    @Column(columnDefinition = "jsonb")
     private List<Integer> seats;
 
     private Double amount;
