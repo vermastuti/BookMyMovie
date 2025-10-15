@@ -9,4 +9,5 @@ public interface iBookingService {
     void cancelBooking(int bookingId);
     List<Booking> getBookingsByUserId(int userId);
 
+    Booking addNewBooking(Booking booking);
 }

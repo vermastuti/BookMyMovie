@@ -30,18 +30,20 @@ public class Movie {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer movieId;
 
-    @NotBlank(message = "Movie title is required")
+//    @NotBlank(message = "Movie title is required")
     private String title;
     private String genre;
 
     @Enumerated(EnumType.STRING)
-    private Language language;
+    private Language mlanguage;
     private LocalDate releaseDate;
     private LocalTime duration;
-    private Collection<String> movieCast;
+
+//    @ElementCollection
+//    private Collection<String> movieCast;
 
     @Min(value = 1, message = "Rating must be at least 1")
     @Max(value = 10, message = "Rating cannot be more than 10")
@@ -59,24 +61,16 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(int movieId, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, Collection<String> movieCast, Integer rating) {
+    public Movie(int movieId, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, Integer rating) {
         this.movieId = movieId;
         this.title = title;
         this.genre = genre;
-        this.language = language;
+        this.mlanguage = language;
         this.releaseDate = releaseDate;
         this.duration = duration;
-        this.movieCast = movieCast;
+//        this.movieCast = movieCast;
         this.rating = rating;
     }
-
-//    public Collection<Show> getShows() {
-//        return shows;
-//    }
-//
-//    public void setShows(Collection<Show> show) {
-//        this.shows = show;
-//    }
 
     public int getMovieId() {
         return movieId;
@@ -99,11 +93,11 @@ public class Movie {
     }
 
     public Language getLanguage() {
-        return language;
+        return mlanguage;
     }
 
     public void setLanguage(Language language) {
-        this.language = language;
+        this.mlanguage = language;
     }
 
     public LocalDate getReleaseDate() {
@@ -122,13 +116,13 @@ public class Movie {
         this.duration = duration;
     }
 
-    public Collection<String> getMovieCast() {
-        return movieCast;
-    }
-
-    public void setMovieCast(Collection<String> cast) {
-        this.movieCast = cast;
-    }
+//    public Collection<String> getMovieCast() {
+//        return movieCast;
+//    }
+//
+//    public void setMovieCast(Collection<String> cast) {
+//        this.movieCast = cast;
+//    }
 
     public Integer getRating() {
         return rating;
@@ -144,7 +138,7 @@ public class Movie {
                 "id=" + movieId +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
-                ", language=" + language +
+                ", language=" + mlanguage +
                 ", releaseDate=" + releaseDate +
                 ", duration=" + duration +
 //                ", movieCast=" + movieCast +

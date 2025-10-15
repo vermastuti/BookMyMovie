@@ -5,28 +5,30 @@ import com.example.BookMyMovie.service.iBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/booking")
+@RequestMapping("/api/book")
 public class BookingController {
     @Autowired
     private iBookingService bookingService;
 
 
-    @GetMapping
+    @GetMapping("/view")
     public ResponseEntity<?> getAllBookings(){
-
         return new ResponseEntity<>(bookingService.getAllBookings(), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Booking>> getUserBookings(@PathVariable int userId) {
-        return new ResponseEntity<>(bookingService.getBookingsByUserId(userId),HttpStatus.OK);
+    @GetMapping("/user/{pid}")
+    public ResponseEntity<?> getAllBookings(@PathVariable("pid") int pid){
+        return new ResponseEntity<>(bookingService.getBookingsByUserId(pid), HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) {
+        return new ResponseEntity<>(bookingService.addNewBooking(booking), HttpStatus.CREATED);
     }
 }

@@ -18,22 +18,11 @@ public class Booking {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer bookingId;
-
-
-    @ManyToOne
-    @JoinColumn(name = "user_profile_user_id")
-    private UserProfile userProfile;
-
-    @ManyToOne
-    @JoinColumn(name = "show_show_id")
-    private MovieShow movieShow;
-
-    private List<Integer> seats;
-
-    private Double amount;
-
+    private int bookingId;
+    private int userProfileId;
+    private int movieShowId;
+    private int seats;
+    private double amount;
     @Enumerated(EnumType.STRING)
     private Status status;
     private boolean isPaid;
@@ -41,44 +30,45 @@ public class Booking {
 
     public Booking(){}
 
-    public Booking(UserProfile userProfile, Integer bookingId, List<Integer> seats, Double amount, Status status, Boolean isPaid) {
-        this.userProfile = userProfile;
+    public Booking(int userProfileId, int movieShowId, int bookingId, double amount, Status status, Boolean isPaid, int seats) {
+        this.userProfileId = userProfileId;
         this.bookingId = bookingId;
         this.seats = seats;
+        this.movieShowId = movieShowId;
         this.amount = amount;
         this.status = status;
         this.isPaid = isPaid;
     }
 
-    public UserProfile getUserProfile() {
-        return userProfile;
+    public int getUserProfile() {
+        return userProfileId;
     }
 
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
+    public void setUserProfile(int userProfileId) {
+        this.userProfileId = userProfileId;
     }
 
-    public MovieShow getShow() {
-        return movieShow;
+    public int getShow() {
+        return movieShowId;
     }
 
-    public void setShow(MovieShow movieShow) {
-        this.movieShow = movieShow;
+    public void setShow(int movieShow) {
+        this.movieShowId = movieShow;
     }
 
-    public Integer getBookingId() {
+    public int getBookingId() {
         return bookingId;
     }
 
-    public void setBookingId(Integer bookingId) {
+    public void setBookingId(int bookingId) {
         this.bookingId = bookingId;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -98,7 +88,7 @@ public class Booking {
         isPaid = paid;
     }
 
-    public List<Integer> getSeats() {return seats;}
+    public int getSeats() {return seats;}
 
-    public void setSeats(List<Integer> seats) {this.seats = seats;}
+    public void setSeats(int seats) {this.seats = seats;}
 }

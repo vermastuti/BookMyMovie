@@ -45,7 +45,7 @@ public class MovieController {
     }
 
     @PostMapping("/admin/add")
-    public ResponseEntity<?> add(@Valid @RequestBody Movie movie) {
+    public ResponseEntity<?> add( @RequestBody Movie movie) {
         System.out.println("----------------------------here-----   " + movie.toString());
         Movie addedMovie = movieService.add(movie);
         return new ResponseEntity<>(addedMovie, HttpStatus.OK);
