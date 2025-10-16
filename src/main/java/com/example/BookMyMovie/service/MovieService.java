@@ -3,6 +3,7 @@ package com.example.BookMyMovie.service;
 import com.example.BookMyMovie.exception.DuplicateIdFoundException;
 import com.example.BookMyMovie.exception.IdDoesNotExistException;
 import com.example.BookMyMovie.model.Movie;
+import com.example.BookMyMovie.model.MovieShow;
 import com.example.BookMyMovie.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class MovieService implements IMovieService{
             movieRepository.deleteById(id);
             return true;
         } else {
-            throw new IdDoesNotExistException("Id Not Found");
+            throw new IdDoesNotExistException("Movie Id Not Found");
         }
     }
 
@@ -71,6 +72,18 @@ public class MovieService implements IMovieService{
     @Override
     public List<Movie> getByGenre(String genre) {
         return movieRepository.findByGenre(genre);
+    }
+
+    @Override
+    public void cancelMovie(int movieId) {
+        Optional<Movie> movie = movieRepository.findById(movieId);
+        if(movie.isPresent()){
+            Movie cancelledMovie = movie.get();
+            cancelledMovie.setStatus("cancelled");
+            movieRepository.save(cancelledMovie);
+        } else {
+            throw new IdDoesNotExistException("Show Id not found");
+        }
     }
 
 }

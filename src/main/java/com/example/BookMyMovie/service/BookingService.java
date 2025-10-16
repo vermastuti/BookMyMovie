@@ -24,8 +24,12 @@ public class BookingService implements iBookingService{
     }
 
     @Override
-    public void cancelBooking(int bookingId) {
-
+    public void cancelBookings(int showId) {
+        List<Booking> bookings = bookingRepo.findByMovieShowId(showId);
+        for(Booking cancelBooking: bookings){
+            cancelBooking.setStatus(Booking.Status.CANCELLED);
+            bookingRepo.save(cancelBooking);
+        }
     }
 
     @Override
@@ -42,4 +46,7 @@ public class BookingService implements iBookingService{
             return bookingRepo.save(booking);
         }
     }
+
+
+
 }

@@ -11,4 +11,7 @@ public interface IShowService {
     List<MovieShow> viewAllShow();
     List<MovieShow> findByMovie(Movie movie);
 
+    void cancelShow(int showId);
+
+    void cancelShowsByMovie(int movieId);
 }

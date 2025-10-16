@@ -11,5 +11,6 @@ import java.util.List;
 public interface ShowRepository extends JpaRepository<MovieShow,Integer> {
 
     List<MovieShow> findByMovie(Movie movie);
+//    List<MovieShow> findByMovieId(int movieId);
 }
 

@@ -20,4 +20,5 @@ public interface IMovieService {
 
     List<Movie> getByGenre(String genre);
 
+    void cancelMovie(int movieId);
 }
