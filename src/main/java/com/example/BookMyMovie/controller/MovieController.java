@@ -19,6 +19,7 @@ import java.awt.print.Book;
 @RestController
 @RequestMapping("/api/movies")
 @Validated
+@CrossOrigin
 public class MovieController {
 
     @Autowired
@@ -62,7 +63,7 @@ public class MovieController {
             Movie addedMovie = movieService.add(movie);
             return new ResponseEntity<>(addedMovie, HttpStatus.OK);
         } catch (DuplicateIdFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
 
@@ -76,7 +77,7 @@ public class MovieController {
         }
     }
 
-    @GetMapping("/admin/cancel/{movieId}")
+    @PutMapping("/admin/cancel/{movieId}")
     public ResponseEntity<?> cancel(@PathVariable("movieId") int movieId){
         try {
             movieService.cancelMovie(movieId);
