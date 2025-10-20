@@ -24,10 +24,11 @@ public class MovieShow {
     Theatre theatre;
     int totalPrice;
     int availableSeats;
+    String status;
 
     public MovieShow() {}
 
-    public MovieShow(int showId, LocalDate showDate, LocalTime showTime, Movie movie, Theatre theatre, int totalPrice, int availableSeats) {
+    public MovieShow(int showId, LocalDate showDate, LocalTime showTime, Movie movie, Theatre theatre, int totalPrice, int availableSeats, String status) {
         this.showId = showId;
         this.showDate = showDate;
         this.showTime = showTime;
@@ -35,6 +36,15 @@ public class MovieShow {
         this.theatre = theatre;
         this.totalPrice = totalPrice;
         this.availableSeats = availableSeats;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Theatre getTheatre() {

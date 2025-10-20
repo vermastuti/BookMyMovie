@@ -29,7 +29,7 @@ public class SecurityConfig {
                                 "/api/movies/**",
                                 "/api/show/**",
                                 "/api/book/**").permitAll()
-                        .requestMatchers("/api/movies/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

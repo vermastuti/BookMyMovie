@@ -25,7 +25,7 @@ public class BookingController {
     }
 
     @GetMapping("/user/{pid}")
-    public ResponseEntity<?> getAllBookings(@PathVariable("pid") int pid){
+    public ResponseEntity<?> getAllBookingsByUserId(@PathVariable("pid") int pid){
         return new ResponseEntity<>(bookingService.getBookingsByUserId(pid), HttpStatus.OK);
     }
 

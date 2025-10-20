@@ -5,6 +5,7 @@ import com.example.BookMyMovie.exception.IdDoesNotExistException;
 import com.example.BookMyMovie.exception.ShowIdAlreadyExistException;
 import com.example.BookMyMovie.model.Movie;
 import com.example.BookMyMovie.model.MovieShow;
+import com.example.BookMyMovie.service.BookingService;
 import com.example.BookMyMovie.service.MovieService;
 import com.example.BookMyMovie.service.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/show")
-//@Validated
+@Validated
 public class ShowController {
 
     @Autowired
@@ -25,6 +26,9 @@ public class ShowController {
 
     @Autowired
     MovieService movieService;
+
+    @Autowired
+    BookingService bookingService;
 
     @PostMapping("/add")
     public ResponseEntity<?> addShow(@RequestBody MovieShow movieShow) {
@@ -49,6 +53,17 @@ public class ShowController {
             Movie movie = movieService.getById(mid);
             List<MovieShow> movieShows = showService.findByMovie(movie);
             return new ResponseEntity<>(movieShows, HttpStatus.OK);
+        } catch (IdDoesNotExistException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/cancel/{showId}")
+    public  ResponseEntity<?> cancelshow(@PathVariable("showId") int showId) {
+        try {
+            showService.cancelShow(showId);
+            bookingService.cancelBookings(showId);
+            return new ResponseEntity<>("Shows cancelled", HttpStatus.OK);
         } catch (IdDoesNotExistException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

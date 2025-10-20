@@ -30,8 +30,7 @@ public class Movie {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer movieId;
+    private int movieId;
 
 //    @NotBlank(message = "Movie title is required")
     private String title;
@@ -49,11 +48,14 @@ public class Movie {
     @Max(value = 10, message = "Rating cannot be more than 10")
     private Integer rating;
 
-    @CreatedDate
-    private Instant createdAt;
+    String status;
+    private boolean isAdmin;
 
-    @LastModifiedDate
-    private Instant updatedAt;
+//    @CreatedDate
+//    private Instant createdAt;
+//
+//    @LastModifiedDate
+//    private Instant updatedAt;
 
 //    @OneToMany(mappedBy = "movie")
 //    private Collection<Show> shows;
@@ -61,7 +63,8 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(int movieId, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, Integer rating) {
+    public Movie(boolean isAdmin, int movieId, String status, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, Integer rating) {
+        this.isAdmin = isAdmin;
         this.movieId = movieId;
         this.title = title;
         this.genre = genre;
@@ -70,11 +73,38 @@ public class Movie {
         this.duration = duration;
 //        this.movieCast = movieCast;
         this.rating = rating;
+        this.status = status;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public Language getMlanguage() {
+        return mlanguage;
+    }
+
+    public void setMlanguage(Language mlanguage) {
+        this.mlanguage = mlanguage;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getMovieId() {
         return movieId;
     }
+
+    public void setMovieId(int movieId) { this.movieId = movieId;}
 
     public String getTitle() {
         return title;
@@ -90,14 +120,6 @@ public class Movie {
 
     public void setGenre(String genre) {
         this.genre = genre;
-    }
-
-    public Language getLanguage() {
-        return mlanguage;
-    }
-
-    public void setLanguage(Language language) {
-        this.mlanguage = language;
     }
 
     public LocalDate getReleaseDate() {
@@ -143,8 +165,8 @@ public class Movie {
                 ", duration=" + duration +
 //                ", movieCast=" + movieCast +
                 ", rating=" + rating +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
+//                ", createdAt=" + createdAt +
+//                ", updatedAt=" + updatedAt +
                 '}';
     }
 
