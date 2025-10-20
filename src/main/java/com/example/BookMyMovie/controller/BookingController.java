@@ -1,7 +1,9 @@
 package com.example.BookMyMovie.controller;
 
+import com.example.BookMyMovie.dto.BookingRequest;
 import com.example.BookMyMovie.model.Booking;
 import com.example.BookMyMovie.service.iBookingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,9 @@ public class BookingController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) {
+    public ResponseEntity<Booking> createBooking(@Valid @RequestBody BookingRequest booking) {
         return new ResponseEntity<>(bookingService.addNewBooking(booking), HttpStatus.CREATED);
     }
+
+
 }

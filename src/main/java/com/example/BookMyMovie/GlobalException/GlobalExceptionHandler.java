@@ -1,5 +1,6 @@
 package com.example.BookMyMovie.GlobalException;
 
+import com.example.BookMyMovie.exception.InvalidBookingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,5 +26,14 @@ public class GlobalExceptionHandler {
                 }
         );
         return errorMap;
+    }
+
+    // ✅ Handles service-layer invalid data (e.g., null userId, zero seats)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidBookingException.class)
+    public Map<String, String> handleInvalidBooking(InvalidBookingException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return error;
     }
 }
