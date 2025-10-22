@@ -1,33 +1,25 @@
-package com.example.BookMyMovie.model;
+package com.example.BookMyMovie.dto;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
-import jakarta.persistence.*;
+public class TheatreDTO {
 
-import java.util.Collection;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
-@Entity
-public class Theatre {
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    Integer theatreId;
+    @NotNull(message = "Mandatory field")
+    @Min(value=50 ,message = "seats must be greater than 50")
     Integer seats;
+    @NotNull(message = "Mandatory field")
     String city;
+    @NotNull(message = "Mandatory field")
     String name;
 
-    public Theatre() {
-
+    public TheatreDTO() {
     }
 
-    public Theatre(Integer seats, String city, String name) {
+    public TheatreDTO(Integer seats, String city, String name) {
         this.seats = seats;
         this.city = city;
         this.name = name;
-    }
-
-    public Integer getTheatreId() {
-        return theatreId;
     }
 
     public Integer getSeats() {
@@ -52,9 +44,5 @@ public class Theatre {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setTheatreId(int i) {
-
     }
 }

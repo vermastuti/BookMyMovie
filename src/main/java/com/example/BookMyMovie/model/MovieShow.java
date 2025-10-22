@@ -1,4 +1,8 @@
 package com.example.BookMyMovie.model;
+import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -6,61 +10,37 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class MovieShow {
 
     @Id
+    @GeneratedValue(strategy = IDENTITY)
     int showId;
     LocalDate showDate;
     LocalTime showTime;
-
-    @ManyToOne
-    @JoinColumn(name = "movie_movie_id")
-    Movie movie;
-
-    @ManyToOne
-    @JoinColumn(name = "theatre_theatre_id")
-    Theatre theatre;
-    int totalPrice;
+    Integer movieId;
+    Integer theatreId;
+    Integer totalPrice;
     int availableSeats;
     String status;
 
-    public MovieShow() {}
+    public MovieShow() {
+    }
 
-    public MovieShow(int showId, LocalDate showDate, LocalTime showTime, Movie movie, Theatre theatre, int totalPrice, int availableSeats, String status) {
-        this.showId = showId;
+    public MovieShow(LocalDate showDate, LocalTime showTime, Integer movieId, Integer theatreId, Integer totalPrice, int availableSeats, String status) {
         this.showDate = showDate;
         this.showTime = showTime;
-        this.movie = movie;
-        this.theatre = theatre;
+        this.movieId = movieId;
+        this.theatreId = theatreId;
         this.totalPrice = totalPrice;
         this.availableSeats = availableSeats;
         this.status = status;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Theatre getTheatre() {
-        return theatre;
-    }
-
-    public void setTheatre(Theatre theatre) {
-        this.theatre = theatre;
-    }
-
     public int getShowId() {
         return showId;
-    }
-
-    public void setShowId(int showId) {
-        this.showId = showId;
     }
 
     public LocalDate getShowDate() {
@@ -79,19 +59,27 @@ public class MovieShow {
         this.showTime = showTime;
     }
 
-    public Movie getMovie() {
-        return movie;
+    public Integer getMovieId() {
+        return movieId;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public void setMovieId(Integer movieId) {
+        this.movieId = movieId;
     }
 
-    public int getTotalPrice() {
+    public Integer getTheatreId() {
+        return theatreId;
+    }
+
+    public void setTheatreId(Integer theatreId) {
+        this.theatreId = theatreId;
+    }
+
+    public Integer getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(Integer totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -103,4 +91,11 @@ public class MovieShow {
         this.availableSeats = availableSeats;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
