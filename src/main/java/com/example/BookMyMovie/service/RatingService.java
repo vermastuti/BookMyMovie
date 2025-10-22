@@ -7,36 +7,31 @@ import com.example.BookMyMovie.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class RatingService implements iRatingService {
 
-
     @Autowired
     RatingRepository ratingRepository;
 
+
     @Override
     public Rating addReview(Rating rating) throws RatingIdAlreadyExistException {
-
-
         boolean isRatingExist = ratingRepository.existsById(rating.getRatingId());
 
         if (isRatingExist) {
 
             throw new RatingIdAlreadyExistException("Rating Id Already Present");
 
-        }
-
-        else {
+        } else {
             Rating ratingadded = ratingRepository.save(rating);
 
             return ratingadded;
         }
-
     }
-
 
     @Override
     public List<Rating> viewAllRatings() {
@@ -47,26 +42,38 @@ public class RatingService implements iRatingService {
 
     }
 
-
     @Override
     public List<Rating> viewAllRatingsByCutomerId(Integer customerId) {
 
-        List<Rating> ratingListByCustomerId = ratingRepository.findByCustomerId(customerId);
+        List<Rating> ratingListByCustomerId;
+        if (customerId !=null && customerId != 0 )  {
 
-        return ratingListByCustomerId;
+            ratingListByCustomerId = ratingRepository.findByCustomerId(customerId);
+
+            return ratingListByCustomerId;
+        } else
+
+            return Collections.emptyList();
+
     }
-
 
     @Override
     public List<Rating> viewAllRatingsByMovieId(Integer movieId) {
 
-        List<Rating> ratingsByMovieId = ratingRepository.findByMovieId(movieId);
+        List<Rating> ratingsByMovieId;
 
-        return ratingsByMovieId;
+        if (movieId != null && movieId !=0 ) {
+
+            ratingsByMovieId = ratingRepository.findByMovieId(movieId);
+
+            return ratingsByMovieId;
+        } else
+            return Collections.emptyList();
+
     }
 
-    public Rating updateRating(Integer ratingId, Integer customerId, Integer newRating, String newReview) throws RatingIdNotFoundException {
-
+    @Override
+    public Rating updateRating(Integer ratingId, Integer newRating, Integer customerId, String newReview) throws RatingIdNotFoundException {
         Optional<Rating> ratingOptional = ratingRepository.findById(ratingId);
 
         if (ratingOptional.isPresent()) {
@@ -76,9 +83,7 @@ public class RatingService implements iRatingService {
             Rating updatedRating = ratingOptional.get();
 
             return (ratingRepository.save(updatedRating));
-        }
-
-        else
+        } else
             throw new RatingIdNotFoundException("RatingId doesn't exist");
 
 
@@ -93,6 +98,4 @@ public class RatingService implements iRatingService {
     }
 
 }
-
-
 
