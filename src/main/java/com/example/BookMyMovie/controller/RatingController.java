@@ -4,6 +4,8 @@ package com.example.BookMyMovie.controller;
 //import com.example.MovieRating.model.Rating;
 //import com.example.MovieRating.service.RatingService;
 
+import com.example.BookMyMovie.exception.RatingIdAlreadyExistException;
+import com.example.BookMyMovie.exception.RatingIdNotFoundException;
 import com.example.BookMyMovie.model.Rating;
 import com.example.BookMyMovie.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,19 @@ public class RatingController {
     @PostMapping("/add")
     public ResponseEntity<?> addReview(@RequestBody Rating rating) {
 
-        Rating ratingresult = ratingService.addReview(rating);
+        Rating ratingresult = null;
+        try {
 
-        return (new ResponseEntity<>(ratingresult, HttpStatus.CREATED));
+            ratingresult = ratingService.addReview(rating);
+
+            return (new ResponseEntity<>(ratingresult, HttpStatus.CREATED));
+
+
+        } catch (RatingIdAlreadyExistException e) {
+
+            return (new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT));
+
+        }
 
     }
 
@@ -62,13 +74,30 @@ public class RatingController {
 
     }
 
-    @PostMapping("/updaterating/{ratingId}/{customerId}/{rating}/{newReview}")
-    public ResponseEntity<?> updateRating(@PathVariable Integer ratingId,@PathVariable Integer rating, @PathVariable Integer customerId,@PathVariable String newReview) {
+/*
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateRating(@RequestBody Rating rating) {
+
+        Rating updatedRating = ratingService.updateRating(rating);
+
+    }
+
+*/
+
+    @PostMapping("/updaterating/{ratingId}/{customerId}/{newRating}/{newReview}")
+    public ResponseEntity<?> updateRating(@PathVariable Integer ratingId,@PathVariable Integer newRating, @PathVariable Integer customerId,@PathVariable String newReview) {
 
 
-        Rating updatedRating = ratingService.updateRating(ratingId, customerId , rating, newReview);
+        try {
+            Rating updatedRating = ratingService.updateRating(ratingId, customerId , newRating, newReview);
 
-        return (new ResponseEntity<>(updatedRating,HttpStatus.OK));
+            return new ResponseEntity<>(updatedRating,HttpStatus.OK);
+
+        } catch (RatingIdNotFoundException e) {
+
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
 
     }
 }

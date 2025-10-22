@@ -1,9 +1,7 @@
 package com.example.BookMyMovie.service;
 
-//package com.example.MovieRating.service;
-//import com.example.MovieRating.model.Rating;
-//import com.example.MovieRating.repository.RatingRepository;
-
+import com.example.BookMyMovie.exception.RatingIdAlreadyExistException;
+import com.example.BookMyMovie.exception.RatingIdNotFoundException;
 import com.example.BookMyMovie.model.Rating;
 import com.example.BookMyMovie.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +18,22 @@ public class RatingService implements iRatingService {
     RatingRepository ratingRepository;
 
     @Override
-    public Rating addReview(Rating rating) {
+    public Rating addReview(Rating rating) throws RatingIdAlreadyExistException {
 
-        Rating ratingcreated = ratingRepository.save(rating);
 
-        return ratingcreated;
+        boolean isRatingExist = ratingRepository.existsById(rating.getRatingId());
+
+        if (isRatingExist) {
+
+            throw new RatingIdAlreadyExistException("Rating Id Already Present");
+
+        }
+
+        else {
+            Rating ratingadded = ratingRepository.save(rating);
+
+            return ratingadded;
+        }
 
     }
 
@@ -44,31 +53,43 @@ public class RatingService implements iRatingService {
 
         List<Rating> ratingListByCustomerId = ratingRepository.findByCustomerId(customerId);
 
-        //ratingListByCustomerId.stream().forEach((c)-> c.toString());
         return ratingListByCustomerId;
     }
 
 
-    //yet to implement
     @Override
     public List<Rating> viewAllRatingsByMovieId(Integer movieId) {
 
         List<Rating> ratingsByMovieId = ratingRepository.findByMovieId(movieId);
 
-
         return ratingsByMovieId;
     }
 
-    public Rating updateRating(Integer ratingId, Integer customerId, Integer newRating, String newReview) {
+    public Rating updateRating(Integer ratingId, Integer customerId, Integer newRating, String newReview) throws RatingIdNotFoundException {
 
-        Rating rating = ratingRepository.findById(ratingId)
+        Optional<Rating> ratingOptional = ratingRepository.findById(ratingId);
+
+        if (ratingOptional.isPresent()) {
+            ratingOptional.get().setReview(newReview);
+            ratingOptional.get().setRating(newRating);
+
+            Rating updatedRating = ratingOptional.get();
+
+            return (ratingRepository.save(updatedRating));
+        }
+
+        else
+            throw new RatingIdNotFoundException("RatingId doesn't exist");
+
+
+        /*Rating rating = ratingRepository.findById(ratingId)
                 .orElseThrow(() -> new RuntimeException("Rating not found with given Id ratingId : " + ratingId));
-
-        // Update fields
+*/
+        /*// Update fields
         rating.setReview(newReview);
         rating.setRating(newRating);
-
-        return ratingRepository.save(rating);
+*/
+        //return ratingRepository.save(rating);
     }
 
 }
