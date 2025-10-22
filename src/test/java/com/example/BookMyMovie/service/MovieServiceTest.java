@@ -32,7 +32,7 @@ class MovieServiceTest {
 
     //Add Movie
     @Test
-    void43shouldAddMovieWhenTheMovieIsNotPresentInCatalog() {
+    void shouldAddMovieWhenTheMovieIsNotPresentInCatalog() {
         Movie movie = new Movie();
         movie.setMovieId(1);
 
