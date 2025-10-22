@@ -74,18 +74,8 @@ public class RatingController {
 
     }
 
-/*
 
-    @PutMapping("/update")
-    public ResponseEntity<?> updateRating(@RequestBody Rating rating) {
-
-        Rating updatedRating = ratingService.updateRating(rating);
-
-    }
-
-*/
-
-    @PostMapping("/updaterating/{ratingId}/{customerId}/{newRating}/{newReview}")
+    @PutMapping("/updaterating/{ratingId}/{customerId}/{newRating}/{newReview}")
     public ResponseEntity<?> updateRating(@PathVariable Integer ratingId,@PathVariable Integer newRating, @PathVariable Integer customerId,@PathVariable String newReview) {
 
 
