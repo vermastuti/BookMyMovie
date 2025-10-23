@@ -18,7 +18,11 @@ public interface IMovieService {
 
     List<Movie> getByTitle(String title);
 
-    List<Movie> getByGenre(String genre);
+    List<Movie> getByGenre(Movie.Genre genre);
 
     void cancelMovie(int movieId);
+
+    List<Movie> searchMovieByTitleAndGenre(String title, Movie.Genre genre);
+
+
 }
