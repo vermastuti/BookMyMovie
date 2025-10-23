@@ -15,7 +15,6 @@ public class TheatreDTO {
 
     public TheatreDTO() {
     }
-
     public TheatreDTO(Integer seats, String city, String name) {
         this.seats = seats;
         this.city = city;
