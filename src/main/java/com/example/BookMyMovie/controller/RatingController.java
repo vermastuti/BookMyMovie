@@ -8,6 +8,7 @@ import com.example.BookMyMovie.exception.RatingIdAlreadyExistException;
 import com.example.BookMyMovie.exception.RatingIdNotFoundException;
 import com.example.BookMyMovie.model.Rating;
 import com.example.BookMyMovie.service.RatingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class RatingController {
     RatingService ratingService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addReview(@RequestBody Rating rating) {
+    public ResponseEntity<?> addReview(@Valid @RequestBody Rating rating) {
 
         Rating ratingresult = null;
         try {
