@@ -3,6 +3,7 @@ package com.example.BookMyMovie.service;
 import com.example.BookMyMovie.dto.AuthResponse;
 import com.example.BookMyMovie.dto.LoginRequest;
 import com.example.BookMyMovie.dto.RegisterRequest;
+import com.example.BookMyMovie.dto.UserRegisterationResponse;
 import com.example.BookMyMovie.exception.DuplicateIdFoundException;
 import com.example.BookMyMovie.exception.IdDoesNotExistException;
 import com.example.BookMyMovie.exception.InvalidCredentialsException;
@@ -57,24 +58,42 @@ public class UserService implements IUserService {
         }
     }
 
-    public AuthResponse register(RegisterRequest request) {
+//    public AuthResponse register(RegisterRequest request) {
+//        if (userRepository.existsByEmail(request.getEmail())) {
+//            throw new DuplicateIdFoundException("Email already exists");
+//        }
+//
+//        UserProfile userProfile = new UserProfile(
+//                request.getEmail(),
+//                passwordEncoder.encode(request.getPassword()),
+//                request.getRole()
+//        );
+//
+//        userRepository.save(userProfile);
+//
+//        String token = jwtUtil.generateToken(userProfile.getEmail(), userProfile.getRole());
+//        return new AuthResponse(token, userProfile.getEmail(), userProfile.getRole());
+//    }
+
+    public UserRegisterationResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new DuplicateIdFoundException("Email already exists");
         }
-
         UserProfile userProfile = new UserProfile(
+                request.getFirstName(),
+                request.getLastName(),
+                request.getMobileNo(),
                 request.getEmail(),
-                passwordEncoder.encode(request.getPassword()),
-                request.getRole()
+                UserProfile.Role.CUSTOMER,
+                passwordEncoder.encode(request.getPassword())
+                //request.getRole()
         );
-
         userRepository.save(userProfile);
-
-        String token = jwtUtil.generateToken(userProfile.getEmail(), userProfile.getRole());
-        return new AuthResponse(token, userProfile.getEmail(), userProfile.getRole());
+        return new UserRegisterationResponse(userProfile.getEmail(), userProfile.getRole());
     }
 
     public AuthResponse login(LoginRequest request) {
+
         UserProfile userProfile = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
 
