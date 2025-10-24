@@ -1,11 +1,10 @@
 package com.example.BookMyMovie.GlobalException;
 
-
-import com.example.BookMyMovie.exception.InvalidBookingException;
+import com.example.BookMyMovie.exception.DuplicateIdFoundException;
 import jakarta.persistence.EntityNotFoundException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,17 +31,24 @@ public class GlobalExceptionHandler {
         return errorMap;
     }
 
-    // ✅ Handles service-layer invalid data (e.g., null userId, zero seats)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(InvalidBookingException.class)
-    public Map<String, String> handleInvalidBooking(InvalidBookingException ex) {
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Map<String, String> handleTypeMismatch(HttpMessageNotReadableException ex) {
         Map<String, String> error = new HashMap<>();
-        error.put("error", ex.getMessage());
+        error.put("error", "Invalid data type provided in request body");
         return error;
+    }
 
     @ExceptionHandler(EntityNotFoundException.class) // Assuming a custom exception
     public ResponseEntity<String> handleResourceNotFoundException(EntityNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+
+    @ExceptionHandler(DuplicateIdFoundException.class)
+    public ResponseEntity<String> handleDuplicateIdFoundException(Exception ex) {
+        return new ResponseEntity<>("An unexpected error occurred: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 
 }

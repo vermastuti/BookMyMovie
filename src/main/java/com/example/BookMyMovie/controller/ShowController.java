@@ -62,7 +62,7 @@ public class ShowController {
     public  ResponseEntity<?> cancelshow(@PathVariable("showId") int showId) {
         try {
             showService.cancelShow(showId);
-            bookingService.cancelBookings(showId);
+            //bookingService.cancelBooking(showId);
             return new ResponseEntity<>("Shows cancelled", HttpStatus.OK);
         } catch (IdDoesNotExistException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

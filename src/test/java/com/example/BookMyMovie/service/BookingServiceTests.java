@@ -1,11 +1,9 @@
 package com.example.BookMyMovie.service;
 
 import com.example.BookMyMovie.dto.BookingRequest;
-import com.example.BookMyMovie.exception.DuplicateIdFoundException;
-import com.example.BookMyMovie.exception.InvalidBookingException;
+import com.example.BookMyMovie.exception.InvalidCredentialsException;
 import com.example.BookMyMovie.model.Booking;
 import com.example.BookMyMovie.repository.BookingRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -82,14 +79,14 @@ class BookingServiceTests {
     @Test
     void testCreateBooking_NullUserId_ThrowsException() {
         request.setUserProfileId(null);
-        assertThrows(InvalidBookingException.class,
+        assertThrows(InvalidCredentialsException.class,
                 () -> service.addNewBooking(request),
                 "User ID cannot be null");
     }
     @Test
     void testCreateBooking_NullMovieShowId_ThrowsException() {
         request.setMovieShowId(null);
-        assertThrows(InvalidBookingException.class,
+        assertThrows(InvalidCredentialsException.class,
                 () -> service.addNewBooking(request),
                 "Movie Show ID cannot be null");
     }
@@ -97,7 +94,7 @@ class BookingServiceTests {
     @Test
     void testCreateBooking_InvalidSeats_ThrowsException() {
         request.setSeats(0);
-        assertThrows(InvalidBookingException.class,
+        assertThrows(InvalidCredentialsException.class,
                 () -> service.addNewBooking(request),
                 "Seats must be greater than 0");
     }
@@ -114,8 +111,8 @@ class BookingServiceTests {
                 .thenReturn(true);
 
         // Act + Assert
-        InvalidBookingException exception = assertThrows(
-                InvalidBookingException.class,                // expected exception type
+        InvalidCredentialsException exception = assertThrows(
+                InvalidCredentialsException.class,                // expected exception type
                 () -> service.addNewBooking(request)          // code that should throw it
         );
 
@@ -136,7 +133,7 @@ class BookingServiceTests {
     @Test
     void testGetBookingsByUserId_NoBookingsFound_ThrowsException() {
         Mockito.when(repo.findByUserProfileId(1)).thenReturn(List.of());
-        assertThrows(InvalidBookingException.class,
+        assertThrows(InvalidCredentialsException.class,
                 () -> service.getBookingsByUserId(1),
                 "No bookings found for user ID: 1");
     }
