@@ -3,8 +3,8 @@ package com.example.BookMyMovie.service;
 import com.example.BookMyMovie.exception.DuplicateIdFoundException;
 import com.example.BookMyMovie.exception.IdDoesNotExistException;
 import com.example.BookMyMovie.model.Movie;
-import com.example.BookMyMovie.model.MovieShow;
 import com.example.BookMyMovie.repository.MovieRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MovieService implements IMovieService{
+public class MovieService implements IMovieService {
 
     @Autowired
     MovieRepository movieRepository;
@@ -23,7 +23,7 @@ public class MovieService implements IMovieService{
     @Override
     public Movie add(Movie movie) {
         boolean isPresent = movieRepository.existsById(movie.getMovieId());
-        if (isPresent){
+        if (isPresent) {
             throw new DuplicateIdFoundException("Duplicate Movie Id Found");
         } else {
             return movieRepository.save(movie);
@@ -34,7 +34,7 @@ public class MovieService implements IMovieService{
     @Override
     public Movie update(Movie movie) {
         boolean isPresent = movieRepository.existsById(movie.getMovieId());
-        if (isPresent){
+        if (isPresent) {
             return movieRepository.save(movie);
         } else {
             throw new IdDoesNotExistException("Movie Id Not Found");
@@ -43,8 +43,8 @@ public class MovieService implements IMovieService{
     }
 
     @Override
-    public boolean delete(int id){
-        if(movieRepository.existsById(id)){
+    public boolean delete(int id) {
+        if (movieRepository.existsById(id)) {
             movieRepository.deleteById(id);
             return true;
         } else {
@@ -55,7 +55,7 @@ public class MovieService implements IMovieService{
     @Override
     public Movie getById(int id) {
         Optional<Movie> movie = movieRepository.findById(id);
-        if(movie.isPresent()){
+        if (movie.isPresent()) {
             return movie.get();
         } else {
             throw new IdDoesNotExistException("Id Not Found");
@@ -73,20 +73,34 @@ public class MovieService implements IMovieService{
     }
 
     @Override
-    public List<Movie> getByGenre(String genre) {
+    public List<Movie> getByGenre(Movie.Genre genre) {
         return movieRepository.findByGenre(genre);
     }
 
     @Override
     public void cancelMovie(int movieId) {
         Optional<Movie> movie = movieRepository.findById(movieId);
-        if(movie.isPresent()){
+        if (movie.isPresent()) {
             Movie cancelledMovie = movie.get();
             cancelledMovie.setStatus("cancelled");
             movieRepository.save(cancelledMovie);
         } else {
             throw new IdDoesNotExistException("Show Id not found");
         }
+    }
+
+    @Override
+    public List<Movie> searchMovieByTitleAndGenre(String title, Movie.Genre genre) {
+        if (title != null && genre != null) {
+           return movieRepository.findByTitleAndGenre(title, genre);
+        } else if (title == null && genre != null) {
+           return movieRepository.findByGenre(genre);
+        } else if (title != null) {
+           return movieRepository.findByTitle(title);
+        } else {
+            throw new EntityNotFoundException("Title and genre are not there");
+        }
+
     }
 
 }

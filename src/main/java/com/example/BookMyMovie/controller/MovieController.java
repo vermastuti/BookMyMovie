@@ -47,15 +47,15 @@ public class MovieController {
         }
     }
 
-    @GetMapping("/search?title={title}")
-    public ResponseEntity<?> getMovieByTitle(@RequestParam("title") String title) {
-        return new ResponseEntity<>(movieService.getByTitle(title), HttpStatus.OK);
+    @GetMapping("/search")
+    public ResponseEntity<?> searchMovieByTitleAndGenre(@RequestParam(value="title",required = false) String title, @RequestParam(value="genre",required = false) Movie.Genre genre) {
+        return new ResponseEntity<>(movieService.searchMovieByTitleAndGenre(title,genre), HttpStatus.OK);
     }
 
-    @GetMapping("/search?genre={genre}")
-    public ResponseEntity<?> getMovieByGenre(@RequestParam("genre") String genre) {
-        return new ResponseEntity<>(movieService.getByGenre(genre), HttpStatus.OK);
-    }
+//    @GetMapping("/search")
+//    public ResponseEntity<?> getMovieByGenre(@RequestParam("genre") String genre) {
+//        return new ResponseEntity<>(movieService.getByGenre(genre), HttpStatus.OK);
+//    }
 
     @PostMapping("/admin/add")
     public ResponseEntity<?> add(@Valid @RequestBody Movie movie) {
