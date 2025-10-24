@@ -73,7 +73,7 @@ public class RatingService implements iRatingService {
     }
 
     @Override
-    public Rating updateRating(Integer ratingId, Integer newRating, Integer customerId, String newReview) throws RatingIdNotFoundException {
+    public Rating updateRating(Integer ratingId, Integer newRating, String newReview) throws RatingIdNotFoundException {
         Optional<Rating> ratingOptional = ratingRepository.findById(ratingId);
 
         if (ratingOptional.isPresent()) {

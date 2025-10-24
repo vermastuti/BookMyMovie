@@ -17,7 +17,7 @@ public interface iRatingService {
 
     List<Rating> viewAllRatingsByMovieId(Integer movieId);
 
-    Rating updateRating(Integer ratingId , Integer rating , Integer customerId , String newReview) throws RatingIdNotFoundException;
+    Rating updateRating(Integer ratingId , Integer rating , String newReview) throws RatingIdNotFoundException;
 
 
 }

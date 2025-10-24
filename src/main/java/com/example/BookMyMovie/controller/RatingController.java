@@ -1,9 +1,5 @@
 package com.example.BookMyMovie.controller;
 
-//package com.example.MovieRating.controller;
-//import com.example.MovieRating.model.Rating;
-//import com.example.MovieRating.service.RatingService;
-
 import com.example.BookMyMovie.exception.RatingIdAlreadyExistException;
 import com.example.BookMyMovie.exception.RatingIdNotFoundException;
 import com.example.BookMyMovie.model.Rating;
@@ -23,7 +19,7 @@ public class RatingController {
     @Autowired
     RatingService ratingService;
 
-    @PostMapping("/add")
+    @PostMapping()
     public ResponseEntity<?> addReview(@Valid @RequestBody Rating rating) {
 
         Rating ratingresult = null;
@@ -76,12 +72,12 @@ public class RatingController {
     }
 
 
-    @PutMapping("/updaterating/{ratingId}/{customerId}/{newRating}/{newReview}")
-    public ResponseEntity<?> updateRating(@PathVariable Integer ratingId,@PathVariable Integer newRating, @PathVariable Integer customerId,@PathVariable String newReview) {
+    @PutMapping("/updaterating/{ratingId}/{newRating}/{newReview}")
+    public ResponseEntity<?> updateRating(@PathVariable Integer ratingId,@PathVariable Integer newRating ,@PathVariable String newReview) {
 
 
         try {
-            Rating updatedRating = ratingService.updateRating(ratingId, customerId , newRating, newReview);
+            Rating updatedRating = ratingService.updateRating(ratingId, newRating, newReview);
 
             return new ResponseEntity<>(updatedRating,HttpStatus.OK);
 

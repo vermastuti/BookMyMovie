@@ -29,7 +29,7 @@ public class RatingServiceTest {
 
     Rating rating;
 
-    List<Rating> ratingList;
+    //List<Rating> ratingList;
 
     @BeforeEach
     public void init() throws RatingIdAlreadyExistException {
