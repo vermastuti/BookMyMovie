@@ -1,8 +1,9 @@
 package com.example.BookMyMovie.controller;
 
-import com.example.BookMyMovie.exception.DuplicateIdFoundException;
+import com.example.BookMyMovie.dto.BookingRequest;
 import com.example.BookMyMovie.model.Booking;
 import com.example.BookMyMovie.service.iBookingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +30,9 @@ public class BookingController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
-        try {
-            Booking booking1 = bookingService.addNewBooking(booking);
-            return new ResponseEntity<>(booking1, HttpStatus.CREATED);
-        } catch (DuplicateIdFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<Booking> createBooking(@Valid @RequestBody BookingRequest booking) {
+        return new ResponseEntity<>(bookingService.addNewBooking(booking), HttpStatus.CREATED);
     }
+
+
 }
