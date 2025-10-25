@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,16 +48,17 @@ public class MovieController {
         }
     }
 
-    @GetMapping("/search?title={title}")
-    public ResponseEntity<?> getMovieByTitle(@RequestParam("title") String title) {
-        return new ResponseEntity<>(movieService.getByTitle(title), HttpStatus.OK);
+    @GetMapping("/search")
+    public ResponseEntity<?> searchMovieByTitleAndGenre(@RequestParam(value="title",required = false) String title, @RequestParam(value="genre",required = false) Movie.Genre genre) {
+        return new ResponseEntity<>(movieService.searchMovieByTitleAndGenre(title,genre), HttpStatus.OK);
     }
 
-    @GetMapping("/search?genre={genre}")
-    public ResponseEntity<?> getMovieByGenre(@RequestParam("genre") String genre) {
-        return new ResponseEntity<>(movieService.getByGenre(genre), HttpStatus.OK);
-    }
+//    @GetMapping("/search")
+//    public ResponseEntity<?> getMovieByGenre(@RequestParam("genre") String genre) {
+//        return new ResponseEntity<>(movieService.getByGenre(genre), HttpStatus.OK);
+//    }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/admin/add")
     public ResponseEntity<?> add(@Valid @RequestBody Movie movie) {
         try {
@@ -65,6 +67,18 @@ public class MovieController {
         } catch (DuplicateIdFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value="/adminping", method = RequestMethod.GET)
+    public String adminPing(){
+        return "Only Admins Can Read This";
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(value="/userping", method = RequestMethod.GET)
+    public String userPing(){
+        return "Any User Can Read This";
     }
 
     @PutMapping("/admin/update")

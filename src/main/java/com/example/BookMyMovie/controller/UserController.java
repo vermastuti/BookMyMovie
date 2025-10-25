@@ -3,6 +3,7 @@ package com.example.BookMyMovie.controller;
 import com.example.BookMyMovie.dto.AuthResponse;
 import com.example.BookMyMovie.dto.LoginRequest;
 import com.example.BookMyMovie.dto.RegisterRequest;
+import com.example.BookMyMovie.dto.UserRegisterationResponse;
 import com.example.BookMyMovie.model.UserProfile;
 import com.example.BookMyMovie.service.UserService;
 import jakarta.validation.Valid;
@@ -20,8 +21,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
+//    @PostMapping("/register")
+//    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+//        return new ResponseEntity<>(userService.register(request), HttpStatus.CREATED);
+//    }
+
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<UserRegisterationResponse> register(@Valid @RequestBody RegisterRequest request) {
         return new ResponseEntity<>(userService.register(request), HttpStatus.CREATED);
     }
 

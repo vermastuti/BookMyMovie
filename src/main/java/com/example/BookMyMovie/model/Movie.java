@@ -1,20 +1,19 @@
 package com.example.BookMyMovie.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
 
 @Entity
-//@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class)
 public class Movie {
 
 
@@ -29,16 +28,31 @@ public class Movie {
         BHOJPURI
     }
 
+    public enum Genre {
+        ROMANTIC,
+        ACTION,
+        COMEDY,
+        DRAMA,
+        THRILLER
+    }
+
     @Id
     private int movieId;
 
 //    @NotBlank(message = "Movie title is required")
     private String title;
-    private String genre;
+
+
+   @NotNull(message = "Genre can not be null")
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
 
     @Enumerated(EnumType.STRING)
     private Language mlanguage;
+
     private LocalDate releaseDate;
+
+
     private LocalTime duration;
 
 //    @ElementCollection
@@ -48,14 +62,17 @@ public class Movie {
     @Max(value = 10, message = "Rating cannot be more than 10")
     private Integer rating;
 
-    String status;
+    @NotBlank(message = "Status is Required")
+    @Column(nullable = false)
+    String status="UPCOMING";
+
     private boolean isAdmin;
 
-//    @CreatedDate
-//    private Instant createdAt;
-//
-//    @LastModifiedDate
-//    private Instant updatedAt;
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
 
 //    @OneToMany(mappedBy = "movie")
 //    private Collection<Show> shows;
@@ -63,7 +80,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(boolean isAdmin, int movieId, String status, String title, String genre, Language language, LocalDate releaseDate, LocalTime duration, Integer rating) {
+    public Movie(boolean isAdmin, int movieId, String status, String title, Genre genre, Language language, LocalDate releaseDate, LocalTime duration, Integer rating) {
         this.isAdmin = isAdmin;
         this.movieId = movieId;
         this.title = title;
@@ -114,11 +131,11 @@ public class Movie {
         this.title = title;
     }
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 
@@ -170,4 +187,12 @@ public class Movie {
                 '}';
     }
 
+    @AssertTrue(message = "Duration must be between 20 minutes and 3 hours")
+    public boolean isDurationValid() {
+        if (duration == null) return false;
+
+        int totalMinutes = duration.getHour() * 60 + duration.getMinute();
+
+        return totalMinutes >= 20 && totalMinutes <= 180;
+    }
 }
