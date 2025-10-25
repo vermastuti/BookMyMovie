@@ -54,9 +54,15 @@ public class ShowController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-//
-//    @GetMapping("/cancel/")
-//    public  ResponseEntity<?> cancelshow(@RequestParam("showId") int showId) {
-//       return showService.
+
+    @GetMapping("/cancel/{showId}")
+    public  ResponseEntity<?> cancelshow(@PathVariable("showId") int showId) {
+        try {
+            showService.cancelShow(showId);
+            //bookingService.cancelBooking(showId);
+            return new ResponseEntity<>("Shows cancelled", HttpStatus.OK);
+        } catch (IdDoesNotExistException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 

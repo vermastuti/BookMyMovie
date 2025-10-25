@@ -29,7 +29,8 @@ public class SecurityConfig {
                                 "/api/movies/**",
                                 "/api/show/**",
                                 "/api/book/**",
-                                "/api/theatre/**").permitAll()
+                                "/api/theatre/**",
+                                "/api/v1/movie/rating/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
