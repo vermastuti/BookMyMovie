@@ -1,16 +1,22 @@
 package com.example.BookMyMovie.repository;
 
-import com.example.BookMyMovie.model.Movie;
+import  com.example.BookMyMovie.model.MovieShow;
 import com.example.BookMyMovie.model.MovieShow;
+import jakarta.validation.Valid;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ShowRepository extends JpaRepository<MovieShow,Integer> {
 
-    List<MovieShow> findByMovie(Movie movie);
-//    List<MovieShow> findByMovieId(int movieId);
+    Optional<MovieShow> findByMovieId(Integer movieId);
+
+    Optional<MovieShow> findByTheatreIdAndShowDateAndShowTime(Integer theatreId, LocalDate showDate, LocalTime showTime);
 }
 

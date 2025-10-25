@@ -38,7 +38,7 @@ class MovieServiceTest {
         Movie movie = new Movie();
         movie.setMovieId(1);
 
-    //Always mock the dependency, we are mocking the syntax of below line
+        //Always mock the dependency, we are mocking the syntax of below line
         // boolean isPresent = movieRepository.existsById(movie.getMovieId());
         when(movieRepository.existsById(1)).thenReturn(false);
         //Actual method called
@@ -46,7 +46,7 @@ class MovieServiceTest {
         //verify
         //movieRepository.save(movie);
 
-       verify(movieRepository, times(1)).save(movie);
+        verify(movieRepository, times(1)).save(movie);
     }
 
     @Test
@@ -60,7 +60,7 @@ class MovieServiceTest {
         assertThrows(DuplicateIdFoundException.class ,() ->  movieService.add(movie));
     }
 
-//Updating the movie
+    //Updating the movie
     @Test
     void shouldUpdateTheMovieWhenIdIsPresent(){
         Movie movie=new Movie();
@@ -69,7 +69,7 @@ class MovieServiceTest {
         //Mocking the dependency and converting this code
         //boolean isPresent = movieRepository.existsById(movie.getMovieId());
         when(movieRepository.existsById(1)).thenReturn(true);
-       //calling method
+        //calling method
         movieService.update(movie);
         // verify(movieRepository, times(1)).save(movie);
         verify(movieRepository,times(1)).save(movie);

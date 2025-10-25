@@ -21,6 +21,9 @@ public class MovieService implements IMovieService {
         this.movieRepository = movieRepository;
     }
 
+    public MovieService(MovieRepository movieRepository) {
+    }
+
     @Override
     public Movie add(Movie movie) {
         boolean isPresent = movieRepository.existsById(movie.getMovieId());
