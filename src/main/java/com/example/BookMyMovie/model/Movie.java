@@ -13,7 +13,7 @@ import java.time.LocalTime;
 import java.util.Collection;
 
 @Entity
-//@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class)
 public class Movie {
 
 
@@ -68,11 +68,11 @@ public class Movie {
 
     private boolean isAdmin;
 
-//    @CreatedDate
-//    private Instant createdAt;
-//
-//    @LastModifiedDate
-//    private Instant updatedAt;
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
 
 //    @OneToMany(mappedBy = "movie")
 //    private Collection<Show> shows;
