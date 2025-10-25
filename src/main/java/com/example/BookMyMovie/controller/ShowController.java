@@ -27,9 +27,9 @@ public class ShowController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<?> addShow( @RequestBody MovieShowDto movieShowDto) throws DuplicateIdFoundException {
-            MovieShow movieShowResult = showService.add(movieShowDto);
-            return new ResponseEntity<>(movieShowResult, HttpStatus.CREATED);
+    public ResponseEntity<?> addShow(@RequestBody MovieShowDto movieShowDto) throws DuplicateIdFoundException {
+        MovieShow movieShowResult = showService.add(movieShowDto);
+        return new ResponseEntity<>(movieShowResult, HttpStatus.CREATED);
     }
 
     @GetMapping("/test")
@@ -40,29 +40,29 @@ public class ShowController {
 
 
     @GetMapping("/all")
-    public  ResponseEntity<?> viewallshow() {
+    public ResponseEntity<?> viewallshow() {
         List<MovieShow> movieShows = showService.viewAllShow();
         return new ResponseEntity<>(movieShows, HttpStatus.OK);
     }
 
     @GetMapping("/viewall/{mid}")
-    public  ResponseEntity<?> viewByMovieId(@PathVariable("mid") int mid) {
+    public ResponseEntity<?> viewByMovieId(@PathVariable("mid") int mid) {
         try {
             List<MovieShow> movieShows = showService.findByMovieId(mid);
             return new ResponseEntity<>(movieShows, HttpStatus.OK);
-        } catch (IdDoesNotExistException e){
+        } catch (IdDoesNotExistException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/cancel/{showId}")
-    public  ResponseEntity<?> cancelshow(@PathVariable("showId") int showId) {
+    public ResponseEntity<?> cancelshow(@PathVariable("showId") int showId) {
         try {
-            showService.cancelShow(showId);
+//            showService.cancelShow(showId);
             //bookingService.cancelBooking(showId);
             return new ResponseEntity<>("Shows cancelled", HttpStatus.OK);
-        } catch (IdDoesNotExistException e){
+        } catch (IdDoesNotExistException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-
+}

@@ -82,7 +82,7 @@ public class UserService implements IUserService {
         UserProfile userProfile = new UserProfile(
                 request.getFirstName(),
                 request.getLastName(),
-                request.getMobileNo(),
+//                request.getMobileNo(),
                 request.getEmail(),
                 UserProfile.Role.CUSTOMER,
                 passwordEncoder.encode(request.getPassword())
@@ -92,17 +92,17 @@ public class UserService implements IUserService {
         return new UserRegisterationResponse(userProfile.getEmail(), userProfile.getRole());
     }
 
-    public AuthResponse login(LoginRequest request) {
-
-        UserProfile userProfile = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
-
-        if (!passwordEncoder.matches(request.getPassword(), userProfile.getPassword())) {
-            throw new InvalidCredentialsException("Invalid credentials");
-        }
-
-        String token = jwtUtil.generateToken(userProfile.getEmail(), userProfile.getRole());
-        return new AuthResponse(token, userProfile.getEmail(), userProfile.getRole());
-    }
+//    public AuthResponse login(LoginRequest request) {
+//
+//        UserProfile userProfile = userRepository.findByEmail(request.getEmail())
+//                .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
+//
+//        if (!passwordEncoder.matches(request.getPassword(), userProfile.getPassword())) {
+//            throw new InvalidCredentialsException("Invalid credentials");
+//        }
+//
+//        String token = jwtUtil.generateToken(userProfile.getEmail(), userProfile.getRole());
+//        return new AuthResponse(token, userProfile.getEmail(), userProfile.getRole());
+//    }
 
 }
