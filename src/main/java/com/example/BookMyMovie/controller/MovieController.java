@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,7 @@ public class MovieController {
 //        return new ResponseEntity<>(movieService.getByGenre(genre), HttpStatus.OK);
 //    }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/admin/add")
     public ResponseEntity<?> add(@Valid @RequestBody Movie movie) {
         try {
@@ -65,6 +67,18 @@ public class MovieController {
         } catch (DuplicateIdFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value="/adminping", method = RequestMethod.GET)
+    public String adminPing(){
+        return "Only Admins Can Read This";
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(value="/userping", method = RequestMethod.GET)
+    public String userPing(){
+        return "Any User Can Read This";
     }
 
     @PutMapping("/admin/update")
