@@ -14,6 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/book")
+@CrossOrigin(
+        exposedHeaders = "Content-Range"
+)
 public class BookingController {
     @Autowired
     private iBookingService bookingService;

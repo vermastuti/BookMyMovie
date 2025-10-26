@@ -8,6 +8,7 @@ import com.example.BookMyMovie.service.MovieService;
 import com.example.BookMyMovie.service.ShowService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +21,9 @@ import java.awt.print.Book;
 @RestController
 @RequestMapping("/api/movies")
 @Validated
-@CrossOrigin
+@CrossOrigin(
+        exposedHeaders = "Content-Range"
+)
 public class MovieController {
 
     @Autowired
@@ -33,9 +36,14 @@ public class MovieController {
     BookingService bookingService;
 
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<?> getAllMovies() {
-        return new ResponseEntity<>(movieService.getAll(), HttpStatus.OK);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        // Format the header as expected by the React data provider
+        // E.g., Content-Range: items 0-24/319
+        responseHeaders.add("Content-Range", "items 0-14/14");
+
+        return new ResponseEntity<>(movieService.getAll(), responseHeaders, HttpStatus.OK);
     }
 
     @GetMapping("/{pid}")
@@ -59,7 +67,7 @@ public class MovieController {
 //    }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/admin/add")
+    @PostMapping
     public ResponseEntity<?> add(@Valid @RequestBody Movie movie) {
         try {
             Movie addedMovie = movieService.add(movie);
@@ -81,7 +89,7 @@ public class MovieController {
         return "Any User Can Read This";
     }
 
-    @PutMapping("/admin/update")
+    @PutMapping
     public ResponseEntity<?> update(@Valid @RequestBody Movie movie) {
         try {
             Movie updatedMovie = movieService.update(movie);
@@ -91,7 +99,7 @@ public class MovieController {
         }
     }
 
-    @PutMapping("/admin/cancel/{movieId}")
+    @PutMapping("/{movieId}")
     public ResponseEntity<?> cancel(@PathVariable("movieId") int movieId){
         try {
             movieService.cancelMovie(movieId);

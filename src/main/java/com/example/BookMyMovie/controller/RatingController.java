@@ -14,6 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/movie/rating")
+@CrossOrigin(
+        exposedHeaders = "Content-Range"
+)
 public class RatingController {
 
     @Autowired

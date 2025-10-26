@@ -14,8 +14,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth/api")
 @Validated
+@CrossOrigin(
+        exposedHeaders = "Content-Range"
+)
 public class UserController {
 
     @Autowired

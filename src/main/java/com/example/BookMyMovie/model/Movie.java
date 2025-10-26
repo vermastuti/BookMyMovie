@@ -1,16 +1,15 @@
 package com.example.BookMyMovie.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collection;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -33,17 +32,19 @@ public class Movie {
         ACTION,
         COMEDY,
         DRAMA,
-        THRILLER
+        THRILLER,
+        TRAVEL
     }
 
     @Id
+    @JsonProperty("id")
     private int movieId;
 
 //    @NotBlank(message = "Movie title is required")
     private String title;
 
 
-   @NotNull(message = "Genre can not be null")
+    @NotNull(message = "Genre can not be null")
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
@@ -66,8 +67,6 @@ public class Movie {
     @Column(nullable = false)
     String status="UPCOMING";
 
-    private boolean isAdmin;
-
     @CreatedDate
     private Instant createdAt;
 
@@ -80,8 +79,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(boolean isAdmin, int movieId, String status, String title, Genre genre, Language language, LocalDate releaseDate, LocalTime duration, Integer rating) {
-        this.isAdmin = isAdmin;
+    public Movie(int movieId, String status, String title, Genre genre, Language language, LocalDate releaseDate, LocalTime duration, Integer rating) {
         this.movieId = movieId;
         this.title = title;
         this.genre = genre;
@@ -93,13 +91,6 @@ public class Movie {
         this.status = status;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
 
     public Language getMlanguage() {
         return mlanguage;

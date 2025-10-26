@@ -17,6 +17,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/show")
 @Validated
+@CrossOrigin(
+        exposedHeaders = "Content-Range"
+)
 public class ShowController {
 
     @Autowired

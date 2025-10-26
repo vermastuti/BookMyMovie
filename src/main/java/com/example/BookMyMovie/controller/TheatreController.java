@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/theatre")
 @Validated
+@CrossOrigin(
+        exposedHeaders = "Content-Range"
+)
 public class TheatreController {
 
     @Autowired
