@@ -89,6 +89,15 @@ public class Movie {
 //        this.movieCast = movieCast;
         this.rating = rating;
         this.status = status;
+        this.image=image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
 
