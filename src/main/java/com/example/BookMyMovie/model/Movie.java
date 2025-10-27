@@ -67,6 +67,8 @@ public class Movie {
     @Column(nullable = false)
     String status="UPCOMING";
 
+    private String image;
+
     @CreatedDate
     private Instant createdAt;
 
@@ -79,7 +81,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(int movieId, String status, String title, Genre genre, Language language, LocalDate releaseDate, LocalTime duration, Integer rating) {
+    public Movie(int movieId, String status, String title, Genre genre, Language language, LocalDate releaseDate, LocalTime duration, Integer rating, String image) {
         this.movieId = movieId;
         this.title = title;
         this.genre = genre;

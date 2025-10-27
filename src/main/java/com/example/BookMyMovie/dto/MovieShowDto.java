@@ -1,6 +1,7 @@
 package com.example.BookMyMovie.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,6 +16,17 @@ public class MovieShowDto {
     private LocalTime showTime;
     @NotNull(message = "show date is mandatory")
     private LocalDate showDate;
+    @Positive(message="price should be positive")
+    @NotNull(message = "Can't be Null")
+    private Integer totalPrice;
+
+    public Integer getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Integer totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public Integer getMovieId() {
         return movieId;
