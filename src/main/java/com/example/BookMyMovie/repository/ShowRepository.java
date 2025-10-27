@@ -15,8 +15,7 @@ import java.util.Optional;
 @Repository
 public interface ShowRepository extends JpaRepository<MovieShow,Integer> {
 
-    Optional<MovieShow> findByMovieId(Integer movieId);
-
+    List<MovieShow> findBymovieId(int movieId);
     Optional<MovieShow> findByTheatreIdAndShowDateAndShowTime(Integer theatreId, LocalDate showDate, LocalTime showTime);
 }
 

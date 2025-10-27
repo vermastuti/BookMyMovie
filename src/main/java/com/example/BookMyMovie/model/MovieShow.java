@@ -27,6 +27,7 @@ public class MovieShow {
     String status;
 
     public MovieShow() {
+        this.status="Available";
     }
 
     public MovieShow(LocalDate showDate, LocalTime showTime, Integer movieId, Integer theatreId, Integer totalPrice, int availableSeats, String status) {

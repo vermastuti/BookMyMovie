@@ -40,6 +40,7 @@ public class ShowService implements IShowService{
             show.setShowDate(movieShowDto.getShowDate());
             show.setShowTime(movieShowDto.getShowTime());
             show.setTheatreId(movieShowDto.getTheatreId());
+            show.setTotalPrice(movieShowDto.getTotalPrice());
             return showRepository.save(show);
         }
     }
@@ -50,13 +51,16 @@ public class ShowService implements IShowService{
         return movieShows;
 
     }
-//
+
     @Override
     public List<MovieShow> findByMovieId(Integer movieId) {
-        if(showRepository.findByMovieId(movieId).isEmpty()){
-            throw new IdDoesNotExistException("Id Not Present");
+        List<MovieShow> shows = showRepository.findBymovieId(movieId);
+
+        if (shows == null || shows.isEmpty()) {
+            throw new IdDoesNotExistException("No shows found for movie ID: " + movieId);
         }
-        return showRepository.findByMovieId(movieId).stream().toList();
+
+        return shows;
     }
 
 //    @Override
