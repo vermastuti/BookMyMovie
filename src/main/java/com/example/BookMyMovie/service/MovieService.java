@@ -24,9 +24,9 @@ public class MovieService implements IMovieService {
 
     @Override
     public Movie add(Movie movie) {
-        boolean isPresent = movieRepository.existsById(movie.getMovieId());
-        if (isPresent) {
-            throw new DuplicateIdFoundException("Duplicate Movie Id Found");
+        List<Movie> movies = movieRepository.findByTitle(movie.getTitle());
+        if (!movies.isEmpty()) {
+            throw new DuplicateIdFoundException("Duplicate Movie Found");
         } else {
             return movieRepository.save(movie);
         }

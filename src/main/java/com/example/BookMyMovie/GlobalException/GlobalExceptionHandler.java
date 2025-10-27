@@ -1,6 +1,7 @@
 package com.example.BookMyMovie.GlobalException;
 
 import com.example.BookMyMovie.exception.DuplicateIdFoundException;
+import com.example.BookMyMovie.exception.InvalidCredentialsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +46,9 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(DuplicateIdFoundException.class)
+    @ExceptionHandler(exception = {DuplicateIdFoundException.class, InvalidCredentialsException.class})
     public ResponseEntity<String> handleDuplicateIdFoundException(Exception ex) {
-        return new ResponseEntity<>("An unexpected error occurred: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 

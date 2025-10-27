@@ -66,7 +66,7 @@ public class MovieController {
 //        return new ResponseEntity<>(movieService.getByGenre(genre), HttpStatus.OK);
 //    }
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> add(@Valid @RequestBody Movie movie) {
         try {
@@ -89,9 +89,10 @@ public class MovieController {
         return "Any User Can Read This";
     }
 
-    @PutMapping
-    public ResponseEntity<?> update(@Valid @RequestBody Movie movie) {
+    @PutMapping("/{movieId}")
+    public ResponseEntity<?> update(@Valid @RequestBody Movie movie, @PathVariable("movieId") int movieId) {
         try {
+            movie.setMovieId(movieId);
             Movie updatedMovie = movieService.update(movie);
             return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
         } catch (IdDoesNotExistException e) {
@@ -99,7 +100,7 @@ public class MovieController {
         }
     }
 
-    @PutMapping("/{movieId}")
+    @PutMapping("/{movieId}/cancel")
     public ResponseEntity<?> cancel(@PathVariable("movieId") int movieId){
         try {
             movieService.cancelMovie(movieId);
@@ -110,5 +111,4 @@ public class MovieController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-
 }

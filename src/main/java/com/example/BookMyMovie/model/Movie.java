@@ -37,10 +37,11 @@ public class Movie {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @JsonProperty("id")
     private int movieId;
 
-//    @NotBlank(message = "Movie title is required")
+    @NotBlank(message = "Movie title is required")
     private String title;
 
 
@@ -52,7 +53,6 @@ public class Movie {
     private Language mlanguage;
 
     private LocalDate releaseDate;
-
 
     private LocalTime duration;
 

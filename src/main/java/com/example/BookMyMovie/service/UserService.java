@@ -95,10 +95,10 @@ public class UserService implements IUserService {
     public AuthResponse login(LoginRequest request) {
 
         UserProfile userProfile = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid email"));
 
         if (!passwordEncoder.matches(request.getPassword(), userProfile.getPassword())) {
-            throw new InvalidCredentialsException("Invalid credentials");
+            throw new InvalidCredentialsException("Invalid password");
         }
 
         String token = jwtUtil.generateToken(userProfile.getEmail(), userProfile.getRole());
