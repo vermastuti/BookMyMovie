@@ -68,41 +68,16 @@ public class ShowService implements IShowService {
     }
 
     @Override
-    public void cancelShowByShowId(int showId) throws ShowCanNotBeCancelled {
-        Optional<MovieShow> shows = showRepository.findById(showId);
-        MovieShow show = shows.get();
-        if (shows.isPresent()) {
-            if(show.getAvailableSeats()==0 && show.getStatus()== MovieShow.ShowStatus.Available)
-            {
-                throw new ShowCanNotBeCancelled("This show is Full can't cancelled now");
-            }
-            else {
-                show.setStatus(MovieShow.ShowStatus.Available);
-            }
-        }
-        else{
-            throw new IdDoesNotExistException("Show Id not found");
-        }
+    public MovieShow findByShowId(Integer showId){
+        Optional<MovieShow> movieShow = showRepository.findById(showId);
 
+        if(movieShow.isPresent()){
+            return movieShow.get();
+        } else {
+            throw new IdDoesNotExistException("No shows found for ID: " + showId);
+        }
     }
 
-
-    @Override
-    public void cancelShowsByMovieId(Integer movieId) throws ShowCanNotBeCancelled {
-        List<MovieShow> shows = showRepository.findBymovieId(movieId);
-        if (shows.isEmpty()) {
-            throw new IdDoesNotExistException("Show Id not found");
-        }
-        for(MovieShow show: shows){
-            if(show.getAvailableSeats()==0 && show.getStatus()== MovieShow.ShowStatus.Available)
-            {
-                throw new ShowCanNotBeCancelled("This show is Full can't cancelled now");
-            }
-            else {
-                show.setStatus(MovieShow.ShowStatus.Available);
-            }
-        }
-    }
 
     @Override
     public void reduceSeatsByshowId(Integer showId,Integer seats) {
@@ -141,7 +116,40 @@ public class ShowService implements IShowService {
         }
     }
 
+    @Override
+    public void cancelShowByShowId(int showId) throws ShowCanNotBeCancelled {
+        Optional<MovieShow> shows = showRepository.findById(showId);
+        MovieShow show = shows.get();
+        if (shows.isPresent()) {
+            if(show.getAvailableSeats()==0 && show.getStatus()== MovieShow.ShowStatus.Available)
+            {
+                throw new ShowCanNotBeCancelled("This show is Full can't cancelled now");
+            }
+            else {
+                show.setStatus(MovieShow.ShowStatus.Available);
+            }
+        }
+        else{
+            throw new IdDoesNotExistException("Show Id not found");
+        }
+    }
 
+    @Override
+    public void cancelShowsByMovieId(Integer movieId) throws ShowCanNotBeCancelled {
+        List<MovieShow> shows = showRepository.findBymovieId(movieId);
+        if (shows.isEmpty()) {
+            throw new IdDoesNotExistException("Show Id not found");
+        }
+        for(MovieShow show: shows){
+            if(show.getAvailableSeats()==0 && show.getStatus()== MovieShow.ShowStatus.Available)
+            {
+                throw new ShowCanNotBeCancelled("This show is Full can't cancelled now");
+            }
+            else {
+                show.setStatus(MovieShow.ShowStatus.Available);
+            }
+        }
+    }
 
 }
 

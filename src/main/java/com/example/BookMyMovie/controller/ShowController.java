@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/show")
+@RequestMapping("/api/shows")
 @Validated
 @CrossOrigin(
         exposedHeaders = "Content-Range"
@@ -34,26 +34,19 @@ public class ShowController {
     BookingService bookingService;
 
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<?> addShow(@Valid @RequestBody MovieShowDto movieShowDto) throws DuplicateIdFoundException {
         MovieShow movieShowResult = showService.add(movieShowDto);
         return new ResponseEntity<>(movieShowResult, HttpStatus.CREATED);
     }
 
-    @GetMapping("/test")
-    public String test() {
-        System.out.println("🎯 Controller is working!");
-        return "OK";
-    }
-
-
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<?> viewallshow() {
         List<MovieShow> movieShows = showService.viewAllShow();
         return new ResponseEntity<>(movieShows, HttpStatus.OK);
     }
 
-    @GetMapping("/viewall/{mid}")
+    @GetMapping("/movie/{mid}")
     public ResponseEntity<?> viewByMovieId(@PathVariable("mid") int mid) {
         try {
             List<MovieShow> movieShows = showService.findByMovieId(mid);
@@ -62,6 +55,17 @@ public class ShowController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/{pid}")
+    public ResponseEntity<?> viewByShowId(@PathVariable("pid") int mid) {
+        try {
+            MovieShow movieShow = showService.findByShowId(mid);
+            return new ResponseEntity<>(movieShow, HttpStatus.OK);
+        } catch (IdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @PutMapping("/reduceseats/{showId}/{seats}")
     public ResponseEntity<?> reduceSeatsByshowId(@PathVariable("showId") int showId,@PathVariable("seats") int seats) {
