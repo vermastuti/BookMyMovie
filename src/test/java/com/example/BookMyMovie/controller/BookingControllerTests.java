@@ -42,11 +42,11 @@ class BookingControllerTests {
         booking.setSeats(2);
         booking.setAmount(500);
         booking.setPaid(true);
-        booking.setUserProfileId(1);
+        booking.setEmail("sangeeta123@gmail.com");
         booking.setStatus(Booking.Status.CONFIRMED);
 
         bookingRequest = new BookingRequest();
-        bookingRequest.setUserProfileId(1);
+        bookingRequest.setEmail("sangeeta123@gmail.com");
         bookingRequest.setMovieShowId(1);
         bookingRequest.setSeats(2);
     }
