@@ -1,5 +1,7 @@
 package com.example.BookMyMovie.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -19,6 +21,17 @@ public class MovieShowDto {
     @Positive(message="price should be positive")
     @NotNull(message = "Can't be Null")
     private Integer totalPrice;
+    @NotNull(message = "Mandatory field")
+    @Min(value=50 ,message = "seats must be greater than 50")
+    Integer seats;
+
+    public Integer getSeats() {
+        return seats;
+    }
+
+    public void setSeats(Integer seats) {
+        this.seats = seats;
+    }
 
     public Integer getTotalPrice() {
         return totalPrice;

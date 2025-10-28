@@ -71,7 +71,7 @@ public class MovieController {
     public ResponseEntity<?> add(@Valid @RequestBody Movie movie) {
         try {
             Movie addedMovie = movieService.add(movie);
-            return new ResponseEntity<>(addedMovie, HttpStatus.OK);
+            return new ResponseEntity<>(addedMovie, HttpStatus.CREATED);
         } catch (DuplicateIdFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
@@ -111,4 +111,5 @@ public class MovieController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
 }

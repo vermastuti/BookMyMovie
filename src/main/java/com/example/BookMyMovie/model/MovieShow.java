@@ -1,4 +1,5 @@
 package com.example.BookMyMovie.model;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -15,6 +16,12 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @EntityListeners(AuditingEntityListener.class)
 public class MovieShow {
 
+    public enum ShowStatus{
+        Available,
+        Cancelled
+    };
+
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     int showId;
@@ -24,10 +31,27 @@ public class MovieShow {
     Integer theatreId;
     Integer totalPrice;
     int availableSeats;
-    String status;
+    ShowStatus status;
+    Integer seats;
+
+    public Integer getSeats() {
+        return seats;
+    }
+
+    public void setSeats(Integer seats) {
+        this.seats = seats;
+    }
+
+    public ShowStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ShowStatus status) {
+        this.status = status;
+    }
 
     public MovieShow() {
-        this.status="Available";
+        this.status=ShowStatus.Available;
     }
 
     public MovieShow(LocalDate showDate, LocalTime showTime, Integer movieId, Integer theatreId, Integer totalPrice, int availableSeats, String status) {
@@ -37,7 +61,7 @@ public class MovieShow {
         this.theatreId = theatreId;
         this.totalPrice = totalPrice;
         this.availableSeats = availableSeats;
-        this.status = status;
+        this.status = ShowStatus.Available;
     }
 
     public int getShowId() {
@@ -92,11 +116,4 @@ public class MovieShow {
         this.availableSeats = availableSeats;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }
