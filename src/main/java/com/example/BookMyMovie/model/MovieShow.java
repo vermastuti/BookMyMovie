@@ -31,6 +31,8 @@ public class MovieShow {
     Integer theatreId;
     Integer totalPrice;
     int availableSeats;
+
+    @Enumerated(EnumType.STRING)
     ShowStatus status;
     Integer seats;
 

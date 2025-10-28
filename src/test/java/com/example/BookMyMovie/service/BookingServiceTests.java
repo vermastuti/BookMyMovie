@@ -1,6 +1,7 @@
 package com.example.BookMyMovie.service;
 
 import com.example.BookMyMovie.dto.BookingRequest;
+import com.example.BookMyMovie.exception.DuplicateIdFoundException;
 import com.example.BookMyMovie.exception.InvalidCredentialsException;
 import com.example.BookMyMovie.model.Booking;
 import com.example.BookMyMovie.repository.BookingRepository;
@@ -35,17 +36,17 @@ class BookingServiceTests {
 
         // Sample request setup
         request = new BookingRequest();
-        request.setUserProfileId(7);
-        request.setMovieShowId(101);
+        request.setEmail("sangeeta123@gmail.com");
+        request.setMovieShowId(102);
         request.setSeats(2);
 
         // Sample booking setup
         booking = new Booking();
         booking.setBookingId(3);
-        booking.setUserProfileId(1);
+        booking.setEmail("sangeeta123@gmail.com");
         booking.setMovieShowId(101);
         booking.setSeats(2);
-        booking.setAmount(500.0);
+        booking.setAmount(500);
         booking.setStatus(Booking.Status.CONFIRMED);
         booking.setPaid(true);
 
@@ -77,11 +78,11 @@ class BookingServiceTests {
     }
 
     @Test
-    void testCreateBooking_NullUserId_ThrowsException() {
-        request.setUserProfileId(null);
+    void testCreateBooking_NullEmailThrowsException() {
+        request.setEmail(null);
         assertThrows(InvalidCredentialsException.class,
                 () -> service.addNewBooking(request),
-                "User ID cannot be null");
+                "User Email cannot be null");
     }
     @Test
     void testCreateBooking_NullMovieShowId_ThrowsException() {
@@ -103,38 +104,38 @@ class BookingServiceTests {
     void testCreateBooking_AlreadyExists_ThrowsException() {
         // Arrange
         BookingRequest request = new BookingRequest();
-        request.setUserProfileId(1);
-        request.setMovieShowId(101);
+        request.setEmail("sangeeta123@gmail.com");
+        request.setMovieShowId(102);
         request.setSeats(2);
 
-        Mockito.when(repo.existsByUserProfileIdAndMovieShowIdAndStatusNot(1, 101, Booking.Status.CANCELLED))
+        Mockito.when(repo.existsByEmailAndMovieShowIdAndStatus("sangeeta123@gmail.com", 102, Booking.Status.CONFIRMED))
                 .thenReturn(true);
 
         // Act + Assert
-        InvalidCredentialsException exception = assertThrows(
-                InvalidCredentialsException.class,                // expected exception type
+        DuplicateIdFoundException exception = assertThrows(
+                DuplicateIdFoundException.class,                // expected exception type
                 () -> service.addNewBooking(request)          // code that should throw it
         );
 
         // Verify exception message
-        assertEquals("User 1 already has a booking for show 101", exception.getMessage());
+        assertEquals("User sangeeta123@gmail.com already has a booking for show 102", exception.getMessage());
     }
 
     @Test
-    void testGetBookingsByUserId_Success() {
-        Mockito.when(repo.findByUserProfileId(1)).thenReturn(List.of(booking));
+    void testGetBookingsByEmail_Success() {
+        Mockito.when(repo.findByEmail("sangeeta123@gmail.com")).thenReturn(List.of(booking));
 
-        List<Booking> result = service.getBookingsByUserId(1);
+        List<Booking> result = service.getBookingsByEmail("sangeeta123@gmail.com");
 
         assertEquals(1, result.size());
-        assertEquals(1, result.get(0).getUserProfileId());
-        assertEquals(500.0, result.get(0).getAmount());
+        assertEquals("sangeeta123@gmail.com", result.get(0).getEmail());
+        assertEquals(500, result.get(0).getAmount());
     }
     @Test
-    void testGetBookingsByUserId_NoBookingsFound_ThrowsException() {
-        Mockito.when(repo.findByUserProfileId(1)).thenReturn(List.of());
+    void testGetBookingsByEmail_NoBookingsFound_ThrowsException() {
+        Mockito.when(repo.findByEmail("sangeeta123@gmail.com")).thenReturn(List.of());
         assertThrows(InvalidCredentialsException.class,
-                () -> service.getBookingsByUserId(1),
+                () -> service.getBookingsByEmail("sangeeta123@gmail.com"),
                 "No bookings found for user ID: 1");
     }
 

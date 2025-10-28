@@ -8,7 +8,7 @@ import java.util.List;
 public interface iBookingService {
     List<Booking> getAllBookings();
     void cancelBooking(int bookingId);
-    List<Booking> getBookingsByUserId(Integer userId);
+    List<Booking> getBookingsByEmail(String email);
 
     Booking addNewBooking(BookingRequest requestDTO);
 }
