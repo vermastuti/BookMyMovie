@@ -51,7 +51,6 @@ class TheatreControllerTest {
         Theatre updatedTheatre=new Theatre();
         updatedTheatre.setCity(updateddto.getCity());
         updatedTheatre.setName(updateddto.getName());
-        updatedTheatre.setSeats(updateddto.getSeats());
         updatedTheatre.setTheatreId(1);
 
         when(theatreService.updateById(1, updateddto)).thenReturn(updatedTheatre);
@@ -66,7 +65,6 @@ class TheatreControllerTest {
         Theatre updatedTheatre=new Theatre();
         updatedTheatre.setCity(updateddto.getCity());
         updatedTheatre.setName(updateddto.getName());
-        updatedTheatre.setSeats(updateddto.getSeats());
         updatedTheatre.setTheatreId(1);
 
         when(theatreService.add(updateddto)).thenReturn(updatedTheatre);

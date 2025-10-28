@@ -26,7 +26,6 @@ public class TheatreService implements ITheatreService{
             Theatre theatre=new Theatre();
             theatre.setCity(theatredto.getCity());
             theatre.setName(theatredto.getName());
-            theatre.setSeats(theatredto.getSeats());
             Theatre added =theatreepository.save(theatre);
             return added;
         }
@@ -45,7 +44,6 @@ public class TheatreService implements ITheatreService{
             Theatre theatre=isPresent.get();
             theatre.setCity(theatredto.getCity());
             theatre.setName(theatredto.getName());
-            theatre.setSeats(theatredto.getSeats());
             Theatre added =theatreepository.save(theatre);
             return added;
         }

@@ -4,10 +4,6 @@ import jakarta.validation.constraints.NotNull;
 
 public class TheatreDTO {
 
-
-    @NotNull(message = "Mandatory field")
-    @Min(value=50 ,message = "seats must be greater than 50")
-    Integer seats;
     @NotNull(message = "Mandatory field")
     String city;
     @NotNull(message = "Mandatory field")
@@ -16,17 +12,8 @@ public class TheatreDTO {
     public TheatreDTO() {
     }
     public TheatreDTO(Integer seats, String city, String name) {
-        this.seats = seats;
         this.city = city;
         this.name = name;
-    }
-
-    public Integer getSeats() {
-        return seats;
-    }
-
-    public void setSeats(Integer seats) {
-        this.seats = seats;
     }
 
     public String getCity() {

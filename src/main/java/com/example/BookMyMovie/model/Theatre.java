@@ -12,7 +12,6 @@ public class Theatre {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     Integer theatreId;
-    Integer seats;
     String city;
     String name;
 
@@ -21,21 +20,12 @@ public class Theatre {
     }
 
     public Theatre(Integer seats, String city, String name) {
-        this.seats = seats;
         this.city = city;
         this.name = name;
     }
 
     public Integer getTheatreId() {
         return theatreId;
-    }
-
-    public Integer getSeats() {
-        return seats;
-    }
-
-    public void setSeats(Integer seats) {
-        this.seats = seats;
     }
 
     public String getCity() {
