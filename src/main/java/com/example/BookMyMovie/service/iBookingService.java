@@ -10,5 +10,5 @@ public interface iBookingService {
     void cancelBooking(int bookingId);
     List<Booking> getBookingsByEmail(String email);
 
-    Booking addNewBooking(BookingRequest requestDTO);
+    Booking addNewBookings(BookingRequest requestDTO);
 }
