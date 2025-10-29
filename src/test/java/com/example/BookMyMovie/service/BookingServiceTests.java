@@ -81,14 +81,14 @@ class BookingServiceTests {
     void testCreateBooking_NullEmailThrowsException() {
         request.setEmail(null);
         assertThrows(InvalidCredentialsException.class,
-                () -> service.addNewBooking(request),
+                () -> service.addNewBookings(request),
                 "User Email cannot be null");
     }
     @Test
     void testCreateBooking_NullMovieShowId_ThrowsException() {
         request.setMovieShowId(null);
         assertThrows(InvalidCredentialsException.class,
-                () -> service.addNewBooking(request),
+                () -> service.addNewBookings(request),
                 "Movie Show ID cannot be null");
     }
 
@@ -96,7 +96,7 @@ class BookingServiceTests {
     void testCreateBooking_InvalidSeats_ThrowsException() {
         request.setSeats(0);
         assertThrows(InvalidCredentialsException.class,
-                () -> service.addNewBooking(request),
+                () -> service.addNewBookings(request),
                 "Seats must be greater than 0");
     }
 
@@ -114,7 +114,7 @@ class BookingServiceTests {
         // Act + Assert
         DuplicateIdFoundException exception = assertThrows(
                 DuplicateIdFoundException.class,                // expected exception type
-                () -> service.addNewBooking(request)          // code that should throw it
+                () -> service.addNewBookings(request)          // code that should throw it
         );
 
         // Verify exception message

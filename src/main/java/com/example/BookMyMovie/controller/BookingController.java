@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Book;
 import java.util.List;
-
-@RestController
-@RequestMapping("/api/book")
 @CrossOrigin(
         exposedHeaders = "Content-Range"
 )
+@RestController
+@RequestMapping("/api/book")
+
 public class BookingController {
     @Autowired
     private iBookingService bookingService;
@@ -34,7 +34,7 @@ public class BookingController {
 
     @PostMapping("/add")
     public ResponseEntity<Booking> createBooking(@Valid @RequestBody BookingRequest booking) {
-        return new ResponseEntity<>(bookingService.addNewBooking(booking), HttpStatus.CREATED);
+        return new ResponseEntity<>(bookingService.addNewBookings(booking), HttpStatus.CREATED);
     }
     @PutMapping("/{bookingId}/cancel")
     public ResponseEntity<String> cancelBooking(@PathVariable int bookingId) {

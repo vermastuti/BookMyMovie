@@ -5,10 +5,8 @@ import com.example.BookMyMovie.exception.DuplicateIdFoundException;
 import com.example.BookMyMovie.exception.IdDoesNotExistException;
 import com.example.BookMyMovie.exception.InvalidCredentialsException;
 import com.example.BookMyMovie.model.Booking;
-import com.example.BookMyMovie.model.UserProfile;
 import com.example.BookMyMovie.repository.BookingRepository;
 import com.example.BookMyMovie.repository.UserRepository;
-import com.sun.jdi.request.DuplicateRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +15,11 @@ import java.util.List;
 @Service
 public class BookingService implements iBookingService{
 
-    private static final double SEAT_PRICE = 250.0;
     @Autowired
     private BookingRepository bookingRepo;
 
     @Autowired
-    private UserRepository userRepo;
+    private ShowService showService;
 
     @Override
     public List<Booking> getAllBookings() {
@@ -39,11 +36,10 @@ public class BookingService implements iBookingService{
         if (booking.getStatus() == Booking.Status.CANCELLED) {
             throw new InvalidCredentialsException("Booking ID " + bookingId + " is already cancelled");
         }
-
         // Update booking details
         booking.setStatus(Booking.Status.CANCELLED);
         booking.setPaid(false); // mark unpaid; refund logic can be added later
-
+        showService.increseSeatByshowId(booking.getMovieShowId(),booking.getSeats());
         // Save updated booking
         bookingRepo.save(booking);
     }
@@ -60,13 +56,11 @@ public class BookingService implements iBookingService{
         if (bookings.isEmpty())
             throw new InvalidCredentialsException("No bookings found for user Email: " + email);
         else{
-
         }
         return bookingRepo.findByEmail(email);
     }
-
     @Override
-    public Booking addNewBooking(BookingRequest requestDTO){
+    public Booking addNewBookings(BookingRequest requestDTO){
         if (requestDTO.getEmail() == null) {
             throw new InvalidCredentialsException("User ID cannot be null");
         }
@@ -100,18 +94,8 @@ public class BookingService implements iBookingService{
             booking.setPaid(true);
 
             Booking savedBooking = bookingRepo.save(booking);
+        showService.reduceSeatsByshowId(savedBooking.getMovieShowId(),savedBooking.getSeats());
         return savedBooking;
-//            // Map Entity → Response DTO
-//            Booking responseDTO = new Booking();
-//            responseDTO.setBookingId(savedBooking.getBookingId());
-//            responseDTO.setEmail(savedBooking.getEmail());
-//            responseDTO.setMovieShowId(savedBooking.getMovieShowId());
-//            responseDTO.setSeats(savedBooking.getSeats());
-//            responseDTO.setAmount(savedBooking.getAmount());
-//            responseDTO.setStatus(savedBooking.getStatus());
-//            responseDTO.setPaid(savedBooking.isPaid());
-//
-//            return responseDTO;
-       //  }
+
     }
 }
