@@ -17,7 +17,7 @@ INSERT INTO movie (`movie_id`, `title`, `genre`, `mlanguage`, `rating`, `release
 ('16', 'Iron Soul', 'ACTION', 'TELUGU', '9', '2023-09-29', '02:33:00', 'RELEASED'),
 ('17', 'Behind the Frame', 'DRAMA', 'ENGLISH', '7', '2017-11-22', '02:15:00', 'RELEASED'),
 ('18', 'Romance Reloaded', 'ROMANTIC', 'HINDI', '8', '2019-02-14', '02:40:00', 'RELEASED'),
-('19', 'Silent Path', 'THRILLER', 'MALAYALmovieAM', '7', '2022-01-19', '02:28:00', 'RELEASED'),
+('19', 'Silent Path', 'THRILLER', 'MALAYALAM', '7', '2022-01-19', '02:28:00', 'RELEASED'),
 ('20', 'Tere Mere Sapne', 'ROMANTIC', 'HINDI', '6', '2008-11-07', '02:48:00', 'RELEASED'),
 ('21', 'Power Play', 'ACTION', 'ENGLISH', '8', '2022-06-03', '02:20:00', 'RELEASED'),
 ('22', 'Swapner Poth', 'DRAMA', 'BENGALI', '7', '2021-03-05', '02:30:00', 'RELEASED'),

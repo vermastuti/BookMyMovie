@@ -1,5 +1,6 @@
 package com.example.BookMyMovie.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.Collection;
@@ -11,6 +12,7 @@ public class Theatre {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @JsonProperty("id")
     Integer theatreId;
     String city;
     String name;

@@ -3,6 +3,7 @@ package com.example.BookMyMovie.controller;
 import com.example.BookMyMovie.dto.MovieShowDto;
 import com.example.BookMyMovie.exception.DuplicateIdFoundException;
 import com.example.BookMyMovie.exception.IdDoesNotExistException;
+import com.example.BookMyMovie.model.Movie;
 import com.example.BookMyMovie.model.MovieShow;
 import com.example.BookMyMovie.service.BookingService;
 import com.example.BookMyMovie.service.MovieService;
@@ -61,6 +62,17 @@ public class ShowController {
         try {
             MovieShow movieShow = showService.findByShowId(mid);
             return new ResponseEntity<>(movieShow, HttpStatus.OK);
+        } catch (IdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/{pid}")
+    public ResponseEntity<?> update(@Valid @RequestBody MovieShow movieShow, @PathVariable("pid") int pid) {
+        try {
+            movieShow.setShowId(pid);
+            MovieShow updatedMovieShow = showService.update(movieShow);
+            return new ResponseEntity<>(updatedMovieShow, HttpStatus.OK);
         } catch (IdDoesNotExistException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

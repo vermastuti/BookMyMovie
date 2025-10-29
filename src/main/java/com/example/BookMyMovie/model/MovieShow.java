@@ -1,4 +1,6 @@
 package com.example.BookMyMovie.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -24,6 +26,7 @@ public class MovieShow {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @JsonProperty("id")
     int showId;
     LocalDate showDate;
     LocalTime showTime;
@@ -64,6 +67,10 @@ public class MovieShow {
         this.totalPrice = totalPrice;
         this.availableSeats = availableSeats;
         this.status = ShowStatus.Available;
+    }
+
+    public void setShowId(int showId) {
+        this.showId = showId;
     }
 
     public int getShowId() {

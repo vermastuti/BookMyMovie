@@ -151,5 +151,16 @@ public class ShowService implements IShowService {
         }
     }
 
+    @Override
+    public MovieShow update(MovieShow movieShow) {
+        boolean isPresent = showRepository.existsById(movieShow.getMovieId());
+        if (isPresent) {
+            return showRepository.save(movieShow);
+        } else {
+            throw new IdDoesNotExistException("Show Id Not Found");
+        }
+
+    }
+
 }
 

@@ -12,40 +12,51 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TheatreService implements ITheatreService{
+public class TheatreService implements ITheatreService {
 
     @Autowired
-    TheatreRepository theatreepository;
+    TheatreRepository theatreRepository;
 
     @Override
     public Theatre add(TheatreDTO theatredto) {
-        Optional<Theatre> isPresent = theatreepository.findByName(theatredto.getName());
-        if (isPresent.isPresent()){
+        Optional<Theatre> isPresent = theatreRepository.findByName(theatredto.getName());
+        if (isPresent.isPresent()) {
             throw new DuplicateIdFoundException("Duplicate Theatre Found");
         } else {
-            Theatre theatre=new Theatre();
+            Theatre theatre = new Theatre();
             theatre.setCity(theatredto.getCity());
             theatre.setName(theatredto.getName());
-            Theatre added =theatreepository.save(theatre);
+            Theatre added = theatreRepository.save(theatre);
             return added;
         }
     }
+
     @Override
     public List<Theatre> getAll() {
-        return theatreepository.findAll();
+        return theatreRepository.findAll();
     }
 
     @Override
-    public Theatre updateById(Integer theatreid,TheatreDTO theatredto) {
-        Optional<Theatre> isPresent = theatreepository.findById(theatreid);
-        if (isPresent.isEmpty()){
+    public Theatre updateById(Integer theatreid, TheatreDTO theatredto) {
+        Optional<Theatre> isPresent = theatreRepository.findById(theatreid);
+        if (isPresent.isEmpty()) {
             throw new IdDoesNotExistException("Theatre Not Found");
         } else {
-            Theatre theatre=isPresent.get();
+            Theatre theatre = isPresent.get();
             theatre.setCity(theatredto.getCity());
             theatre.setName(theatredto.getName());
-            Theatre added =theatreepository.save(theatre);
+            Theatre added = theatreRepository.save(theatre);
             return added;
+        }
+    }
+
+    @Override
+    public Theatre getById(Integer theatreId) {
+        Optional<Theatre> theatreOptional = theatreRepository.findById(theatreId);
+        if (theatreOptional.isPresent()) {
+            return theatreOptional.get();
+        } else {
+            throw new IdDoesNotExistException("Theatre Not Found");
         }
     }
 

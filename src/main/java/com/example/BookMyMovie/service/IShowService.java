@@ -18,6 +18,8 @@ public interface IShowService {
 
 
     MovieShow findByShowId(Integer showId);
+
+    MovieShow update(MovieShow movieShow);
 //    void cancelShow(int showId);
 //    void cancelShowsByMovieId(Integer movieId);package com.example.BookMyMovie.service;
 //

@@ -24,7 +24,7 @@ public class TheatreController {
     TheatreService theatreService;
 
     @ExceptionHandler(DuplicateIdFoundException.class)
-    @PostMapping("/admin/add")
+    @PostMapping
     public ResponseEntity<?> add(@Valid @RequestBody TheatreDTO theatredto) {
         try {
             System.out.println("Inside controller");
@@ -36,25 +36,29 @@ public class TheatreController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<?> getAllTheatre() {
         return new ResponseEntity<>(theatreService.getAll(), HttpStatus.OK);
     }
 
-
-    @ExceptionHandler(IdDoesNotExistException.class)
-    @PutMapping("/admin/update/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id,@Valid @RequestBody TheatreDTO theatredto) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTheatreById(@PathVariable("id") Integer id){
         try {
-            System.out.println("Inside controller");
-            Theatre updatedtheatre = theatreService.updateById(id,theatredto);
-            return new ResponseEntity<>(updatedtheatre, HttpStatus.OK);
+            return new ResponseEntity<>(theatreService.getById(id), HttpStatus.OK);
         } catch (IdDoesNotExistException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
-
+    @ExceptionHandler(IdDoesNotExistException.class)
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody TheatreDTO theatredto) {
+        try {
+            Theatre updatedtheatre = theatreService.updateById(id,theatredto);
+            return new ResponseEntity<>(updatedtheatre, HttpStatus.OK);
+        } catch (IdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 
 }
