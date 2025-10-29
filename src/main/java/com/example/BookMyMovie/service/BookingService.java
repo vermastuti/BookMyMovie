@@ -77,11 +77,14 @@ public class BookingService implements iBookingService{
                         requestDTO.getMovieShowId(),
                         Booking.Status.CONFIRMED);
         System.out.println(alreadyExists);
-        if (alreadyExists)
-            throw new DuplicateIdFoundException(
-                    String.format("User %s already has a booking for show %s",
-                            requestDTO.getEmail(), requestDTO.getMovieShowId()));
+//        if (alreadyExists)
+//            throw new DuplicateIdFoundException(
+//                    String.format("User %s already has a booking for show %s",
+//                            requestDTO.getEmail(), requestDTO.getMovieShowId()));
             // Map DTO → Entity
+
+//        if(requestDTO.getSeats()>)
+            
             Booking booking = new Booking();
             booking.setEmail(requestDTO.getEmail());
             booking.setMovieShowId(requestDTO.getMovieShowId());
